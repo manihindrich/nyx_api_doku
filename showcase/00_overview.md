@@ -10,65 +10,65 @@ Tento dokument poskytuje kompletní přehled všech showcase souborů pro NYX.CZ
 - **Python skripty**: 32 (.py)
 - **Dokumentační soubory**: 3 (.md + .txt)
 
-## Struktura podle API kategorií
+## Struktura podle číselného pořadí
 
 ### 📝 Notepad API (2 endpointy - 4 soubory)
-- `notepad_get.sh/py` - GET /api/notepad
-- `notepad_entry_get.sh/py` - GET /api/notepad/{entry_id}
+- `01_notepad_get.sh/py` - GET /api/notepad
+- `02_notepad_entry_get.sh/py` - GET /api/notepad/{entry_id}
 
-### 📰 Last Posts API (1 endpoint - 2 soubory)
-- `last_posts.sh/py` - GET /api/last
-
-### 🔍 Search API (4 endpointy - 8 souborů)
-- `search_username.sh/py` - GET /api/search/username/{username}
-- `search_v2.sh/py` - GET /api/search-v2
-- `search_unified.sh/py` - GET /api/search/unified
-- `search_highlight.sh/py` - GET /api/search/highlight
+### 🔔 Notifications API (1 endpoint - 2 soubory)
+- `03_notifications_register.sh/py` - POST /api/register_for_notifications
 
 ### 🔖 Bookmarks API (5 endpointů - 10 souborů)
-- `bookmarks_get.sh/py` - GET /api/bookmarks
-- `bookmarks_all.sh/py` - GET /api/bookmarks/all
-- `bookmarks_history.sh/py` - GET /api/bookmarks/history
-- `bookmarks_history_remove.sh/py` - POST /api/bookmarks/history/remove
-- `bookmarks_history_mark_read.sh/py` - POST /api/bookmarks/history/mark_read
+- `04_bookmarks_get.sh/py` - GET /api/bookmarks
+- `05_bookmarks_all.sh/py` - GET /api/bookmarks/all
+- `06_bookmarks_history.sh/py` - GET /api/bookmarks/history
+- `08_bookmarks_history_remove.sh/py` - POST /api/bookmarks/history/remove
+- `09_bookmarks_history_mark_read.sh/py` - POST /api/bookmarks/history/mark_read
 
 ### 📧 Mail API (3 endpointy - 6 souborů)
-- `mail_get.sh/py` - GET /api/mail
-- `mail_send.sh/py` - POST /api/mail/send
-- `mail_reminder.sh/py` - POST /api/mail/reminder/{id}/{newState}
+- `10_mail_get.sh/py` - GET /api/mail
+- `11_mail_send.sh/py` - POST /api/mail/send
+- `12_mail_reminder.sh/py` - POST /api/mail/reminder/{id}/{newState}
 
 ### 💬 Discussion API (12 endpointů - 24 souborů)
-- `discussion_get.sh/py` - GET /api/discussion/{discussionId}
-- `discussion_send.sh/py` - POST /api/discussion/{discussionId}/send/text
-- `discussion_rating_get.sh/py` - GET /api/discussion/{discussion_id}/rating/{id}
-- `discussion_rate.sh/py` - POST /api/discussion/{discussion_id}/rating/{id}/{action}
-- `discussion_reminder.sh/py` - POST /api/discussion/{discussion_id}/reminder/{id}/{new_state}
-- `discussion_bookmark.sh/py` - POST /api/discussion/{discussion_id}/bookmark
-- `discussion_delete.sh/py` - DELETE /api/discussion/{discussion_id}/delete/{id}
-- `discussion_access_rights_get.sh/py` - GET /api/discussion/rights (add endpoint)
-- `discussion_access_rights_post.sh/py` - POST /api/discussion/rights
-- `discussion_home_get.sh/py` - GET /api/discussion/{discussionId}/home
-- `discussion_home_post.sh/py` - POST /api/discussion/{discussionId}/home
-- `discussion_content_save.sh/py` - POST /api/discussion/{discussionId}/content/{contentId}/save
+- `13_discussion_get.sh/py` - GET /api/discussion/{discussionId}
+- `14_discussion_send.sh/py` - POST /api/discussion/{discussionId}/send/text
+- `15_discussion_rating_get.sh/py` - GET /api/discussion/{discussion_id}/rating/{id}
+- `16_discussion_rate.sh/py` - POST /api/discussion/{discussion_id}/rating/{id}/{action}
+- `17_discussion_reminder.sh/py` - POST /api/discussion/{discussion_id}/reminder/{id}/{new_state}
+- `18_discussion_bookmark.sh/py` - POST /api/discussion/{discussion_id}/bookmark
+- `19_discussion_delete.sh/py` - DELETE /api/discussion/{discussion_id}/delete/{id}
+- `20_discussion_access_rights_get.sh/py` - GET /api/discussion/rights (add endpoint)
+- `21_discussion_access_rights_post.sh/py` - POST /api/discussion/rights
+- `22_discussion_content_save.sh/py` - POST /api/discussion/{discussionId}/content/{contentId}/save
+
+### 📰 Last Posts API (1 endpoint - 2 soubory)
+- `23_last_posts.sh/py` - GET /api/last
+
+### 🔔 Notifications API (1 endpoint - 2 soubory)
+- `24_notifications_get.sh/py` - GET /api/notifications
 
 ### 📎 File API (3 endpointy - 6 souborů)
-- `file_upload.sh/py` - PUT /api/file/upload
-- `file_delete.sh/py` - DELETE /api/file/delete/{id}
-- `file_embed.sh/py` - POST /api/file/embed/{id}/{state}
+- `25_file_upload.sh/py` - PUT /api/file/upload
+- `26_file_delete.sh/py` - DELETE /api/file/delete/{id}
+- `27_file_embed.sh/py` - POST /api/file/embed/{id}/{state}
 
-### 🔔 Notifications API (2 endpointy - 4 soubory)
-- `notifications_get.sh/py` - GET /api/notifications
-- `notifications_register.sh/py` - POST /api/register_for_notifications
+### 🔍 Search API (4 endpointy - 8 souborů)
+- `28_search_username.sh/py` - GET /api/search/username/{username}
+- `30_search_v2.sh/py` - GET /api/search-v2
+- `31_search_unified.sh/py` - GET /api/search/unified
+
+### 💬 Discussion API (pokračování - 4 soubory)
+- `32_discussion_home_get.sh/py` - GET /api/discussion/{discussionId}/home
+- `33_discussion_home_post.sh/py` - POST /api/discussion/{discussionId}/home
+
+### 🔍 Search API (pokračování - 2 soubory)
+- `34_search_highlight.sh/py` - GET /api/search/highlight
 
 ## Dokumentační soubory
 
-### README.md
-Hlavní návod k použití showcase souborů s příklady konfigurace a spuštění.
-
-### overview.md (tento soubor)
-Kompletní přehled všech showcase souborů a jejich účelu.
-
-### dummy-secret.txt
+### 00_dummy-secret.txt
 Konfigurační šablona se všemi potřebnými proměnnými pro testování API.
 
 ## Funkce showcase souborů
@@ -94,8 +94,8 @@ Konfigurační šablona se všemi potřebnými proměnnými pro testování API.
 Všechny skripty používají centralizovanou konfiguraci ze souboru `secret.txt`:
 
 ```bash
-# Zkopírujte dummy-secret.txt jako secret.txt
-cp dummy-secret.txt secret.txt
+# Zkopírujte 00_dummy-secret.txt jako secret.txt
+cp 00_dummy-secret.txt secret.txt
 
 # Vyplňte skutečné hodnoty
 nano secret.txt
@@ -130,13 +130,13 @@ REMINDER_STATE="true"
 ### Spuštění bash skriptu
 ```bash
 cd showcase
-./notepad_get.sh
+./01_notepad_get.sh
 ```
 
 ### Spuštění Python skriptu
 ```bash
 cd showcase
-python3 notepad_get.py
+python3 01_notepad_get.py
 ```
 
 ### Hromadné testování
@@ -175,9 +175,9 @@ done
 ## Rozšíření a customizace
 
 ### Přidání nového endpointu
-1. Vytvořte `new_endpoint.sh` a `new_endpoint.py`
+1. Vytvořte `XX_new_endpoint.sh` a `XX_new_endpoint.py` (s číselným prefixem)
 2. Implementujte podle vzoru existujících souborů
-3. Přidejte potřebné proměnné do `dummy-secret.txt`
+3. Přidejte potřebné proměnné do `00_dummy-secret.txt`
 4. Aktualizujte dokumentaci
 
 ### Customizace výstupů

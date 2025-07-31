@@ -4,43 +4,28 @@ Tento dokument poskytuje stručný přehled všech částí dokumentace NYX.CZ A
 
 ## Struktura dokumentace
 
-### 📋 [README.md](./README.md)
-**Hlavní vstupní bod dokumentace**
-- Základní informace o API (verze 0.0.1, base URL, autentifikace)
-- Rychlý start s příklady
-- Obecné konvence (HTTP metody, formáty odpovědí, časové formáty)
-- Odkazy na všechny ostatní části dokumentace
-
-### 🔐 [autentifikace.md](./autentifikace.md)
-**Kompletní průvodce autentifikací**
-- Bearer token autentifikace
-- Získání a použití tokenu
-- Bezpečnostní doporučení a ochrana tokenu
-- Implementace v JavaScript, Python, PHP
-- Testování a řešení problémů s autentifikací
-
-### 📝 [notepad.md](./notepad.md)
+### 📝 [01_notepad.md](./01_notepad.md)
 **Správa poznámkového bloku**
 - `GET /api/notepad` - seznam poznámek
 - `GET /api/notepad/{entry_id}` - konkrétní poznámka
 - Datové struktury: NotepadEntry, NotepadEntryMinimal
 - Práce s kategoriemi a veřejnými poznámkami
 
-### 🔖 [bookmarks.md](./bookmarks.md)
+### 🔖 [04_bookmarks.md](./04_bookmarks.md)
 **Záložky a historie diskuzí**
 - `GET /api/bookmarks` - záložky podle nastavení
 - `GET /api/bookmarks/all` - všechny kategorie rozbalené
 - `GET /api/bookmarks/history` - historie navštívených diskuzí
 - `POST` operace pro správu historie (odebrání, označení jako přečtené)
 
-### 📧 [mail.md](./mail.md)
+### 📧 [10_mail.md](./10_mail.md)
 **Poštovní systém a konverzace**
 - `GET /api/mail` - načtení pošty s filtry
 - `POST /api/mail/send` - odeslání zprávy
 - `POST /api/mail/reminder/{id}/{newState}` - správa upomínek
 - Konverzace, aktivity uživatelů, formáty zpráv
 
-### 💬 [discussion.md](./discussion.md)
+### 💬 [13_discussion.md](./13_discussion.md)
 **Diskuze a příspěvky (nejrozsáhlejší část)**
 - `GET /api/discussion/{discussionId}` - načtení diskuze
 - `POST /api/discussion/{discussionId}/send/text` - odeslání příspěvku
@@ -49,23 +34,14 @@ Tento dokument poskytuje stručný přehled všech částí dokumentace NYX.CZ A
 - Mazání příspěvků a správa přístupových práv
 - Úprava obsahu na nástěnce
 
-### 🔍 [search.md](./search.md)
-**Vyhledávání v obsahu**
-- `GET /api/search/username/{username}` - vyhledání uživatelů
-- `GET /api/search-v2` - vyhledávání příspěvků (nová verze)
-- `GET /api/search/unified` - jednotné vyhledávání
-- Pokročilé vyhledávací výrazy (=foo, "phrase", @username)
-- Zvýrazňování výsledků
+### 📰 [23_last.md](./23_last.md)
+**Nejnovější příspěvky**
+- `GET /api/last` - seznam posledních příspěvků
+- Filtry: domain, min_rating, rated_by_friends, rated_by_me
+- Ignorované domény a diskuze
+- Kombinace filtrů pro personalizaci obsahu
 
-### 📎 [file.md](./file.md)
-**Správa souborů a příloh**
-- `PUT /api/file/upload` - nahrání souboru
-- `DELETE /api/file/delete/{id}` - smazání souboru
-- `POST /api/file/embed/{id}/{state}` - nastavení embedování
-- Typy souborů (discussion_attachment, mail_attachment, event_attachment)
-- Podporované formáty (obrázky, HTML, binární soubory)
-
-### 🔔 [notifications.md](./notifications.md)
+### 🔔 [24_notifications.md](./24_notifications.md)
 **Notifikace a push zprávy**
 - `GET /api/notifications` - seznam notifikací
 - `POST /api/register_for_notifications` - registrace zařízení
@@ -73,14 +49,31 @@ Tento dokument poskytuje stručný přehled všech částí dokumentace NYX.CZ A
 - Typy notifikací (thumbs_up, replies)
 - Firebase a APNS tokeny
 
-### 📰 [last.md](./last.md)
-**Nejnovější příspěvky**
-- `GET /api/last` - seznam posledních příspěvků
-- Filtry: domain, min_rating, rated_by_friends, rated_by_me
-- Ignorované domény a diskuze
-- Kombinace filtrů pro personalizaci obsahu
+### 📎 [25_file.md](./25_file.md)
+**Správa souborů a příloh**
+- `PUT /api/file/upload` - nahrání souboru
+- `DELETE /api/file/delete/{id}` - smazání souboru
+- `POST /api/file/embed/{id}/{state}` - nastavení embedování
+- Typy souborů (discussion_attachment, mail_attachment, event_attachment)
+- Podporované formáty (obrázky, HTML, binární soubory)
 
-### 🏗️ [modely.md](./modely.md)
+### 🔍 [28_search.md](./28_search.md)
+**Vyhledávání v obsahu**
+- `GET /api/search/username/{username}` - vyhledání uživatelů
+- `GET /api/search-v2` - vyhledávání příspěvků (nová verze)
+- `GET /api/search/unified` - jednotné vyhledávání
+- Pokročilé vyhledávací výrazy (=foo, "phrase", @username)
+- Zvýrazňování výsledků
+
+### 🔐 [90_autentifikace.md](./90_autentifikace.md)
+**Kompletní průvodce autentifikací**
+- Bearer token autentifikace
+- Získání a použití tokenu
+- Bezpečnostní doporučení a ochrana tokenu
+- Implementace v JavaScript, Python, PHP
+- Testování a řešení problémů s autentifikací
+
+### 🏗️ [95_modely.md](./95_modely.md)
 **Kompletní datové struktury**
 - Základní typy (Username, SearchExpression)
 - Uživatelské struktury (User, Activity, Context)
@@ -89,7 +82,7 @@ Tento dokument poskytuje stručný přehled všech částí dokumentace NYX.CZ A
 - Enum hodnoty a union typy
 - Formáty dat a konvence
 
-### ⚠️ [chyby.md](./chyby.md)
+### ⚠️ [99_chyby.md](./99_chyby.md)
 **Chybové stavy a jejich řešení**
 - HTTP status kódy (400, 401, 403, 404, 413, 415, 429, 500)
 - Specifické chybové kódy (VALIDATION_ERROR, UNAUTHORIZED, NeedsConfirmation)
@@ -100,61 +93,61 @@ Tento dokument poskytuje stručný přehled všech částí dokumentace NYX.CZ A
 ## Rychlá navigace podle funkcí
 
 ### 👤 **Uživatelské funkce**
-- Autentifikace → [autentifikace.md](./autentifikace.md)
-- Vyhledání uživatelů → [search.md](./search.md)
-- Notifikace → [notifications.md](./notifications.md)
+- Autentifikace → [90_autentifikace.md](./90_autentifikace.md)
+- Vyhledání uživatelů → [28_search.md](./28_search.md)
+- Notifikace → [24_notifications.md](./24_notifications.md)
 
 ### 📝 **Obsah a příspěvky**
-- Poznámky → [notepad.md](./notepad.md)
-- Diskuze → [discussion.md](./discussion.md)
-- Nejnovější příspěvky → [last.md](./last.md)
-- Vyhledávání → [search.md](./search.md)
+- Poznámky → [01_notepad.md](./01_notepad.md)
+- Diskuze → [13_discussion.md](./13_discussion.md)
+- Nejnovější příspěvky → [23_last.md](./23_last.md)
+- Vyhledávání → [28_search.md](./28_search.md)
 
 ### 📁 **Organizace obsahu**
-- Záložky → [bookmarks.md](./bookmarks.md)
-- Soubory → [file.md](./file.md)
-- Pošta → [mail.md](./mail.md)
+- Záložky → [04_bookmarks.md](./04_bookmarks.md)
+- Soubory → [25_file.md](./25_file.md)
+- Pošta → [10_mail.md](./10_mail.md)
 
 ### 🔧 **Technické informace**
-- Datové modely → [modely.md](./modely.md)
-- Chybové kódy → [chyby.md](./chyby.md)
-- Obecné konvence → [README.md](./README.md)
+- Datové modely → [95_modely.md](./95_modely.md)
+- Chybové kódy → [99_chyby.md](./99_chyby.md)
+- Obecné konvence → [../README.md](../README.md)
 
 ## Statistiky dokumentace
 
 | Soubor | Velikost | Endpointy | Hlavní funkce |
 |--------|----------|-----------|---------------|
-| README.md | 2.3KB | - | Přehled a rychlý start |
-| autentifikace.md | 7.9KB | - | Bearer token autentifikace |
-| notepad.md | 3.9KB | 2 | Správa poznámek |
-| bookmarks.md | 6.2KB | 5 | Záložky a historie |
-| mail.md | 6.0KB | 3 | Poštovní systém |
-| discussion.md | 10.7KB | 11 | Diskuze a příspěvky |
-| search.md | 9.1KB | 4 | Vyhledávání |
-| file.md | 5.9KB | 3 | Správa souborů |
-| notifications.md | 5.9KB | 2 | Push notifikace |
-| last.md | 5.8KB | 1 | Nejnovější příspěvky |
-| modely.md | 8.5KB | - | Datové struktury |
-| chyby.md | 6.7KB | - | Chybové stavy |
+| ../README.md | 2.3KB | - | Přehled a rychlý start |
+| 90_autentifikace.md | 7.9KB | - | Bearer token autentifikace |
+| 01_notepad.md | 3.9KB | 2 | Správa poznámek |
+| 04_bookmarks.md | 6.2KB | 5 | Záložky a historie |
+| 10_mail.md | 6.0KB | 3 | Poštovní systém |
+| 13_discussion.md | 10.7KB | 11 | Diskuze a příspěvky |
+| 28_search.md | 9.1KB | 4 | Vyhledávání |
+| 25_file.md | 5.9KB | 3 | Správa souborů |
+| 24_notifications.md | 5.9KB | 2 | Push notifikace |
+| 23_last.md | 5.8KB | 1 | Nejnovější příspěvky |
+| 95_modely.md | 8.5KB | - | Datové struktury |
+| 99_chyby.md | 6.7KB | - | Chybové stavy |
 
 **Celkem:** 13 souborů, ~83KB, 31 API endpointů
 
 ## Doporučené pořadí čtení
 
 ### Pro začátečníky:
-1. [README.md](./README.md) - základní přehled
-2. [autentifikace.md](./autentifikace.md) - jak se připojit
-3. [notepad.md](./notepad.md) - jednoduchý začátek
-4. [chyby.md](./chyby.md) - řešení problémů
+1. [../README.md](../README.md) - základní přehled
+2. [90_autentifikace.md](./90_autentifikace.md) - jak se připojit
+3. [01_notepad.md](./01_notepad.md) - jednoduchý začátek
+4. [99_chyby.md](./99_chyby.md) - řešení problémů
 
 ### Pro pokročilé:
-1. [modely.md](./modely.md) - pochopení datových struktur
-2. [discussion.md](./discussion.md) - nejkomplexnější funkcionalita
-3. [search.md](./search.md) - pokročilé vyhledávání
+1. [95_modely.md](./95_modely.md) - pochopení datových struktur
+2. [13_discussion.md](./13_discussion.md) - nejkomplexnější funkcionalita
+3. [28_search.md](./28_search.md) - pokročilé vyhledávání
 4. Ostatní podle potřeby
 
 ### Pro integraci:
-1. [autentifikace.md](./autentifikace.md) - implementace autentifikace
+1. [90_autentifikace.md](./90_autentifikace.md) - implementace autentifikace
 2. Konkrétní API podle požadavků aplikace
-3. [chyby.md](./chyby.md) - robustní error handling
-4. [modely.md](./modely.md) - validace dat
+3. [99_chyby.md](./99_chyby.md) - robustní error handling
+4. [95_modely.md](./95_modely.md) - validace dat
