@@ -98,6 +98,9 @@ class Client:
             ids = ids if isinstance(ids, list) else [ids]
             if not ids or any(int(i) not in A["discussion_ids"] for i in ids):
                 raise Forbidden("history: discussion_ids not allowlisted")
+        m = re.match(r"/discussion/\d+/delete/(\d+)$", path)
+        if m and ("post", int(m.group(1))) not in self.created:
+            raise Forbidden(f"post {m.group(1)} not created by this run")
         if path.startswith("/file/delete/") or path.startswith("/file/embed/"):
             fid = int(path.split("/")[3])
             if ("file", fid) not in self.created:
