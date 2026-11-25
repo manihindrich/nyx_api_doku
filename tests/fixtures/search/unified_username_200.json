@@ -1,0 +1,19 @@
+{
+ "user": {
+  "exact": [
+   {
+    "username": "NYXOT",
+    "activity": {
+     "username": "NYXOT",
+     "last_activity": "2026-11-25T15:38:17",
+     "last_access_method": "Api",
+     "status": "Active",
+     "location": "hledat",
+     "location_url": "/search"
+    }
+   }
+  ],
+  "friends": [],
+  "others": []
+ }
+}

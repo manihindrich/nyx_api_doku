@@ -6,6 +6,7 @@ Writes are restricted by ALLOWLIST; anything else raises before the request is s
 """
 from __future__ import annotations
 
+import http.client
 import json
 import os
 import re
@@ -143,6 +144,11 @@ class Client:
                     status, raw, hdrs = r.status, r.read(), dict(r.headers)
             except urllib.error.HTTPError as e:
                 status, raw, hdrs = e.code, e.read(), dict(e.headers)
+            except http.client.IncompleteRead:   # seen once on a ~480 kB search response
+                self._last = time.time()
+                time.sleep(2 ** (attempt + 1))
+                status, raw, hdrs = -1, b"", {}
+                continue
             self._last = time.time()
             if status != 429:
                 break
@@ -190,7 +196,11 @@ def shrink(obj, max_items: int = 2, max_str: int = 200, _names=None):
         return [shrink(x, max_items, max_str, names) for x in obj[:max_items]]
     if isinstance(obj, dict):
         out = {}
+        foreign = isinstance(obj.get("username"), str) and obj["username"] not in KNOWN_USERS
         for k, v in obj.items():
+            if foreign and k in ("content", "content_raw", "title", "highlight") and v:
+                out[k] = "<redacted>"
+                continue
             if k in ("username", "nick", "user", "owner_username", "recipient", "sender") \
                     and isinstance(v, str) and v not in KNOWN_USERS:
                 v = names.setdefault(v, f"USER{len(names) + 1}")
