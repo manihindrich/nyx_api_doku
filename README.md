@@ -1,253 +1,81 @@
-# NYX.CZ API - Kompletní dokumentace a showcase
+<p align="center">
+  <img src="assets/nyx-logo.png" alt="nyx" width="120">
+</p>
 
-Tento repozitář obsahuje kompletní dokumentaci a funkční ukázky pro všech 32 endpointů NYX.CZ API.
+<h1 align="center">NYX.CZ API — verified documentation</h1>
 
-## 📁 Struktura repozitáře
-
-```
-nyx_api/
-├── dokumentace/          # Detailní API dokumentace
-│   ├── 00_overview.md     # Kompletní přehled všech endpointů
-│   ├── 01_notepad.md      # Notepad API (2 endpointy)
-│   ├── 04_bookmarks.md    # Bookmarks API (5 endpointů)
-│   ├── 10_mail.md         # Mail API (3 endpointy)
-│   ├── 13_discussion.md   # Discussion API (12 endpointů)
-│   ├── 23_last.md         # Last Posts API (1 endpoint)
-│   ├── 24_notifications.md # Notifications API (2 endpointy)
-│   ├── 25_file.md         # File API (3 endpointy)
-│   ├── 28_search.md       # Search API (4 endpointy)
-│   ├── 90_autentifikace.md # Autentifikace a tokeny
-│   ├── 95_modely.md       # Datové modely
-│   └── 99_chyby.md        # Error handling
-│
-└── showcase/             # Funkční ukázky všech endpointů
-    ├── 00_dummy-secret.txt # Konfigurační šablona
-    ├── 00_overview.md     # Přehled showcase souborů
-    ├── 01_notepad_get.sh/py
-    ├── 02_notepad_entry_get.sh/py
-    ├── 03_notifications_register.sh/py
-    ├── 04-09_bookmarks_*.sh/py
-    ├── 10-12_mail_*.sh/py
-    ├── 13-22_discussion_*.sh/py
-    ├── 23_last_posts.sh/py
-    ├── 24_notifications_get.sh/py
-    ├── 25-27_file_*.sh/py
-    ├── 28-31_search_*.sh/py
-    └── 32-34_extra_*.sh/py
-```
-
-## 🚀 Rychlý start
-
-### 1. Konfigurace
-```bash
-# Zkopírujte konfigurační šablonu
-cp showcase/00_dummy-secret.txt showcase/secret.txt
-
-# Vyplňte skutečné API hodnoty
-nano showcase/secret.txt
-```
-
-### 2. Spuštění ukázek
-```bash
-# Bash verze
-./showcase/01_notepad_get.sh
-
-# Python verze
-python3 showcase/01_notepad_get.py
-```
-
-## 📊 Pokrytí API
-
-| Kategorie | Endpointy | Soubory | Status |
-|-----------|-----------|---------|--------|
-| 📝 Notepad | 2/2 | 4 | ✅ 100% |
-| 📰 Last Posts | 1/1 | 2 | ✅ 100% |
-| 🔍 Search | 4/4 | 8 | ✅ 100% |
-| 🔖 Bookmarks | 5/5 | 10 | ✅ 100% |
-| 📧 Mail | 3/3 | 6 | ✅ 100% |
-| 💬 Discussion | 12/12 | 24 | ✅ 100% |
-| 📎 File | 3/3 | 6 | ✅ 100% |
-| 🔔 Notifications | 2/2 | 4 | ✅ 100% |
-| **CELKEM** | **32/32** | **66** | **✅ 100%** |
-
-## 🔢 Číslování souborů
-
-Všechny soubory jsou chronologicky očíslovány podle pořadí v oficiální API dokumentaci:
-
-- **01-02**: Notepad API
-- **03**: Notifications register
-- **04-09**: Bookmarks API  
-- **10-12**: Mail API
-- **13-22**: Discussion API
-- **23**: Last Posts API
-- **24**: Notifications get
-- **25-27**: File API
-- **28-31**: Search API
-- **32-34**: Extra endpointy
-- **90+**: Obecná dokumentace (autentifikace, modely, chyby)
-
-## 📚 Dokumentace
-
-### Hlavní přehledy
-- [`dokumentace/00_overview.md`](dokumentace/00_overview.md) - Kompletní přehled všech endpointů
-- [`showcase/00_overview.md`](showcase/00_overview.md) - Přehled showcase souborů
-
-### API kategorie
-- [`dokumentace/01_notepad.md`](dokumentace/01_notepad.md) - Notepad API
-- [`dokumentace/04_bookmarks.md`](dokumentace/04_bookmarks.md) - Bookmarks API
-- [`dokumentace/10_mail.md`](dokumentace/10_mail.md) - Mail API
-- [`dokumentace/13_discussion.md`](dokumentace/13_discussion.md) - Discussion API
-- [`dokumentace/23_last.md`](dokumentace/23_last.md) - Last Posts API
-- [`dokumentace/24_notifications.md`](dokumentace/24_notifications.md) - Notifications API
-- [`dokumentace/25_file.md`](dokumentace/25_file.md) - File API
-- [`dokumentace/28_search.md`](dokumentace/28_search.md) - Search API
-
-### Technické detaily
-- [`dokumentace/90_autentifikace.md`](dokumentace/90_autentifikace.md) - Autentifikace a tokeny
-- [`dokumentace/95_modely.md`](dokumentace/95_modely.md) - Datové modely
-- [`dokumentace/99_chyby.md`](dokumentace/99_chyby.md) - Error handling
-
-## 🛠️ Technické vlastnosti
-
-### Showcase skripty
-- **Bash verze**: Používá `curl` a `jq` pro JSON formátování
-- **Python verze**: Používá `requests` knihovnu
-- **Konfigurace**: Centralizované načítání z `secret.txt`
-- **Error handling**: Kompletní validace a error handling
-- **Executable práva**: Všechny `.sh` soubory mají nastavená práva
-
-### Struktura skriptů
-```bash
-# Každý skript obsahuje:
-- Načtení konfigurace ze secret.txt
-- Validaci povinných parametrů
-- HTTP request s proper headers
-- JSON formátování výstupu
-- Error handling a statistiky
-- Detailní komentáře
-```
-
-## 📋 Požadavky
-
-### Pro Bash skripty
-```bash
-# Ubuntu/Debian
-sudo apt install curl jq
-
-# macOS
-brew install curl jq
-```
-
-### Pro Python skripty
-```bash
-pip install requests
-```
-
-## 🔧 Konfigurace
-
-Soubor `showcase/secret.txt` obsahuje:
-```bash
-NYX_TOKEN="your_api_token_here"
-NYX_USERNAME="your_username"
-NYX_MAIL_FROM="your_email@example.com"
-NYX_MAIL_TO="recipient@example.com"
-NYX_MAIL_SUBJECT="Test subject"
-NYX_MAIL_BODY="Test message body"
-RATE_ACTION="up"  # up/down pro rating
-BOOKMARK_STATE="1"  # 0/1 pro bookmark
-REMINDER_STATE="1"  # 0/1 pro reminder
-```
-
-## 🎯 Použití
-
-### Základní workflow
-1. Prostudujte dokumentaci v `dokumentace/`
-2. Nakonfigurujte `showcase/secret.txt`
-3. Spusťte příslušný showcase skript
-4. Analyzujte výstup a response
-
-### Příklady
-```bash
-# Získání notepad dat
-./showcase/01_notepad_get.sh
-
-# Odeslání mailu
-./showcase/11_mail_send.sh
-
-# Vyhledávání
-./showcase/28_search_username.sh
-
-# Python verze
-python3 showcase/01_notepad_get.py
-```
-
-## 🏆 Výhody
-
-- ✅ **100% pokrytí** všech 32 API endpointů
-- 🔢 **Chronologické číslování** pro snadnou navigaci
-- 📚 **Kompletní dokumentace** s příklady
-- 🛠️ **Funkční skripty** v Bash i Python
-- 🔧 **Centralizovaná konfigurace**
-- 📊 **Detailní error handling**
-- 🚀 **Okamžitě použitelné** ukázky
+<p align="center">
+  Unofficial documentation of the <a href="https://nyx.cz">nyx.cz</a> REST API.<br>
+  Every statement is checked against the live API, not copied from the spec.
+</p>
 
 ---
 
-## 📋 Oficiální informace o NYX.CZ API
+## Why
 
-### 🏢 O platformě NYX.CZ
-- **Název**: Nyx.cz
-- **URL**: https://nyx.cz/
-- **Typ**: Česká diskusní platforma a komunita
+The official [Swagger 0.0.1](https://app.swaggerhub.com/apis/nyx.cz/nyx.cz/0.0.1) is incomplete and wrong in many places. This repository describes what the API **actually does**. Each claim links to a live test (`[T-mail-22]`), and every place where reality differs from Swagger is marked **Swagger says** and summarised in [Swagger vs. reality](docs/15_swagger-diff.md). Anything that could not be tested is marked **Not verified**.
 
-### 🔧 API specifikace
-- **OpenAPI verze**: 3.0.0
-- **API verze**: 0.0.1
-- **Base URL**: https://nyx.cz/
-- **Formát**: REST API s JSON responses
-- **Autentifikace**: Bearer token (Authorization header)
+Tested 2026-11-25 to 2026-11-27: 414 recorded live requests covering all 33 operations.
 
-### 📊 Technické detaily
-- **Celkem endpointů**: 32 (100% pokrytí v tomto repozitáři)
-- **Podporované formáty**: JSON, HTML, Text, Markdown
-- **Podporované HTTP metody**: GET, POST, PUT, DELETE
-- **Response formáty**: application/json, multipart/form-data
-- **Error handling**: Standardizované JSON error responses
+## Quick start
 
-### 🎯 Hlavní funkcionality API
-- **Notepad**: Správa osobních poznámek a zápisků
-- **Bookmarks**: Sledování a organizace diskusí
-- **Mail**: Interní poštovní systém
-- **Discussion**: Diskusní fóra s pokročilými funkcemi
-- **Search**: Vyhledávání uživatelů, diskusí a příspěvků
-- **File**: Upload a správa souborů a příloh
-- **Notifications**: Push notifikace pro mobilní aplikace
-- **Last Posts**: Přehled nejnovějších příspěvků
+1. Create an API token in your nyx.cz account settings.
+2. Call the API with it:
 
-### 🔐 Bezpečnost
-- **Autentifikace**: Token-based authentication
-- **Autorizace**: Role-based access control
-- **Rate limiting**: Implementováno pro ochranu API
-- **HTTPS**: Povinné šifrované spojení
+```bash
+export NYX_API_TOKEN="…"
+curl -s -H "Authorization: Bearer $NYX_API_TOKEN" "https://nyx.cz/api/mail?order=newest"
+```
 
-### 📱 Podporované klienty
-- **Web**: Hlavní webové rozhraní
-- **API**: Přímý přístup přes REST API
-- **Mobilní aplikace**: 
-  - nyx (iOS/Android)
-  - fyx (alternativní klient)
-  - nyxdroid (Android)
+Base URL: `https://nyx.cz/api`. Responses are JSON.
 
-### 🌐 Kompatibilita
-- **OpenAPI**: 3.0.0 standard
-- **JSON Schema**: Plná podpora
-- **REST**: RESTful API design
-- **HTTP**: Standard HTTP status codes
+## Documentation
+
+| Chapter | Endpoints |
+|---|---|
+| [Authentication](docs/01_authentication.md) | token, requests without a token |
+| [Notepad](docs/02_notepad.md) | `GET /notepad`, `/notepad/{id}` |
+| [Bookmarks and history](docs/03_bookmarks.md) | `/bookmarks`, `/bookmarks/all`, `/bookmarks/history…` |
+| [Mail](docs/04_mail.md) | `GET /mail`, `/mail/send`, `/mail/reminder` |
+| [Discussion](docs/05_discussion.md) | read, post, delete, rating, reminder, bookmark, header |
+| [Discussion rights](docs/06_discussion_rights.md) | `/discussion/rights`, `/rights/add` |
+| [Last posts](docs/07_last.md) | `GET /last` |
+| [Notifications](docs/08_notifications.md) | `GET /notifications`, `register_for_notifications` |
+| [Files](docs/09_file.md) | upload, embed, delete, attachments |
+| [Search](docs/10_search.md) | users, posts, unified search, search expressions |
+| [Errors](docs/11_errors.md) | status codes and all error messages seen |
+| [Models](docs/12_models.md) | shared objects and field rules |
+| [HTML](docs/13_html.md) | which HTML is kept, changed or removed |
+| [Good practice](docs/14_practices.md) | lessons from running a bot on the API |
+| [Swagger vs. reality](docs/15_swagger-diff.md) | all differences in one place |
+
+## Five things to know first
+
+1. **Missing means false.** Boolean flags and counters are left out when unset ([Models](docs/12_models.md#general-rules)).
+2. **Writes return `{}`.** Find the new post or message ID by reading it back ([Good practice](docs/14_practices.md#writing-posts-and-mail)).
+3. **Duplicates are rejected.** A text identical to your previous post or message fails with 400.
+4. **Errors are loose.** Many invalid values are ignored with 200; others return 422, not 400 ([Errors](docs/11_errors.md)).
+5. **Every `\n` becomes `<br>`**, and URLs are turned into links ([HTML](docs/13_html.md)).
+
+## Tests
+
+The tests are the evidence for the documentation. They run against the live API with a real account and **write** to it, so they are guarded: writes are allowed only to one test discussion, one mail recipient and objects the run created itself (see `ALLOWLIST` in [`tests/nyx.py`](tests/nyx.py)).
+
+```bash
+# token from the environment or from a .env file (never commit it)
+NYX_ENV_FILE=/path/to/.env python3 -I tests/seg_search.py
+```
+
+| Path | Content |
+|---|---|
+| `tests/nyx.py` | client: auth, pacing (1 request/s), retry, write allowlist, recording |
+| `tests/seg_*.py` | one script per chapter; prints `T-id \| status \| verdict` |
+| `tests/fixtures/` | shortened sample responses, other users anonymised |
+| `tests/results/` | full recorded responses (local only, git-ignored) |
+| `tests/models_check.py` | compares response fields with the Swagger schemas |
+
+Before running write tests, change the allowlist to your own test discussion and recipient.
 
 ---
 
-**Vytvořeno**: 2025-01-31  
-**Verze repozitáře**: 1.0  
-**API verze**: 0.0.1  
-**Pokrytí**: 32/32 endpointů (100%)  
-**Platforma**: NYX.CZ (https://nyx.cz/)
+<sub>Unofficial project, not affiliated with nyx.cz. The nyx logo belongs to its owners.</sub>

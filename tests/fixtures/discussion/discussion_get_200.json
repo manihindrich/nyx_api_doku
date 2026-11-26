@@ -1,0 +1,120 @@
+{
+ "context": {
+  "user": {
+   "username": "NYXOT",
+   "mail_unread": 0,
+   "mail_last_from": "RSS",
+   "notifications_unread": 0,
+   "notifications_last_visit": "2025-07-29T12:47:28"
+  },
+  "active_friends": []
+ },
+ "discussion_common": {
+  "discussion": {
+   "id": 288360,
+   "domain_id": 1000,
+   "domain_category_id": 0,
+   "name_static": "NYXOT ~ testing NYX API",
+   "name_dynamic": null,
+   "has_header": true,
+   "has_home": false,
+   "ar_read": false,
+   "ar_write": false,
+   "ar_delete": false,
+   "ar_edit": false,
+   "public": false,
+   "discussion_type": "discussion",
+   "last_header_change": "2025-08-02T22:55:05",
+   "has_backups": false,
+   "hashtags": [],
+   "summary": null
+  },
+  "owner": {
+   "user": {
+    "username": "NYXOT"
+   }
+  },
+  "discussion_specific_data": {
+   "header": [
+    {
+     "id": 68697,
+     "discussion_id": 288360,
+     "location": "header",
+     "sort_order": 0,
+     "content": "doku<br>- <a href='/discussion/18379'>[nyx :: API]</a><br>- <a href='https://app.swaggerhub.com/apis/nyx.cz/nyx.cz/0.0.1' class='extlink'>https://app.swaggerhub.com/apis/nyx.cz/nyx.cz/0.0.1</a>",
+     "content_raw": {
+      "type": "text",
+      "data": {
+       "data": "doku\r\n- https://nyx.cz/discussion/18379\r\n- https://app.swaggerhub.com/apis/nyx.cz/nyx.cz/0.0.1\r\n",
+       "format": "html"
+      }
+     },
+     "post_type": "text"
+    },
+    {
+     "id": 68696,
+     "discussion_id": 288360,
+     "location": "header",
+     "sort_order": 1,
+     "content": "usecase\r<br>- <a href='/discussion/275939'>[Za Paywallem? 🔐🗝️ Odemčeno. 🔑🔓]</a>",
+     "content_raw": {
+      "type": "text",
+      "data": {
+       "data": "usecase\r\n- https://nyx.cz/discussion/275939",
+       "format": "text"
+      }
+     },
+     "post_type": "text"
+    }
+   ]
+  },
+  "access_right": null,
+  "bookmark": {
+   "discussion_id": 288360,
+   "bookmark": true,
+   "category_id": null,
+   "replies_count": 0,
+   "last_seen_post_id": 59141147,
+   "last_visited_at": "2026-11-25T15:55:15"
+  },
+  "waiting_files": []
+ },
+ "posts": [
+  {
+   "id": 59141147,
+   "discussion_id": 288360,
+   "username": "BOD",
+   "content": "aaaaaaa",
+   "inserted_at": "2026-11-25T15:05:35",
+   "activity": {
+    "username": "BOD",
+    "last_activity": "2026-11-25T15:46:54",
+    "last_access_method": "Web",
+    "status": "Active",
+    "location": "pošta",
+    "location_url": "/mail"
+   },
+   "can_be_deleted": true,
+   "can_be_rated": true,
+   "can_be_reminded": true
+  },
+  {
+   "id": 59141145,
+   "discussion_id": 288360,
+   "username": "NYXOT",
+   "content": "aaaaaaaa",
+   "inserted_at": "2026-11-25T15:05:13",
+   "activity": {
+    "username": "NYXOT",
+    "last_activity": "2026-11-25T15:55:20",
+    "last_access_method": "Api",
+    "status": "Active",
+    "location": "NYXOT ~ testing NYX API",
+    "location_url": "/discussion/288360"
+   },
+   "can_be_deleted": true,
+   "can_be_reminded": true
+  }
+ ],
+ "presence": []
+}

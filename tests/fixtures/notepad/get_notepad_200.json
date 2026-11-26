@@ -1,0 +1,22 @@
+{
+ "context": {
+  "user": {
+   "username": "NYXOT",
+   "mail_unread": 0,
+   "mail_last_from": "RSS",
+   "notifications_unread": 0,
+   "notifications_last_visit": "2025-07-29T12:47:28"
+  },
+  "active_friends": []
+ },
+ "selected_entry": null,
+ "entries": [
+  {
+   "category": {
+    "id": -1,
+    "category_name": "nezařazené poznámky"
+   },
+   "entries": []
+  }
+ ]
+}

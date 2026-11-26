@@ -1,0 +1,65 @@
+{
+ "context": {
+  "user": {
+   "username": "NYXOT",
+   "mail_unread": 0,
+   "mail_last_from": "RSS",
+   "notifications_unread": 0,
+   "notifications_last_visit": "2025-07-29T12:47:28"
+  },
+  "active_friends": []
+ },
+ "conversations": [
+  {
+   "username": "USER1",
+   "conversed_at": "2026-11-25T13:43:18",
+   "activity": {
+    "username": "USER1",
+    "last_activity": "2026-11-25T15:43:16",
+    "last_access_method": "Api",
+    "status": "Active",
+    "location": "pošta",
+    "location_url": "/mail"
+   }
+  },
+  {
+   "username": "BOD",
+   "conversed_at": "2026-11-25T10:29:37"
+  }
+ ],
+ "posts": [
+  {
+   "id": 176691966,
+   "username": "USER1",
+   "content": "<redacted>",
+   "inserted_at": "2026-11-25T13:43:18",
+   "other_mail_id": 176691967,
+   "activity": {
+    "username": "USER1",
+    "last_activity": "2026-11-25T15:43:16",
+    "last_access_method": "Api",
+    "status": "Active",
+    "location": "pošta",
+    "location_url": "/mail"
+   }
+  },
+  {
+   "id": 176691965,
+   "username": "USER1",
+   "incoming": true,
+   "content": "<redacted>",
+   "inserted_at": "2026-11-25T13:43:04",
+   "other_mail_id": 176691964,
+   "activity": {
+    "username": "USER1",
+    "last_activity": "2026-11-25T15:43:16",
+    "last_access_method": "Api",
+    "status": "Active",
+    "location": "pošta",
+    "location_url": "/mail"
+   }
+  }
+ ],
+ "reminders": [],
+ "waiting_files": []
+}

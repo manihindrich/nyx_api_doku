@@ -1,0 +1,104 @@
+{
+ "context": {
+  "user": {
+   "username": "NYXOT",
+   "mail_unread": 0,
+   "mail_last_from": "RSS",
+   "notifications_unread": 0,
+   "notifications_last_visit": "2025-07-29T12:47:28"
+  },
+  "active_friends": []
+ },
+ "discussion_common": {
+  "discussion": {
+   "id": 18379,
+   "domain_id": 1,
+   "domain_category_id": 0,
+   "name_static": "nyx :: API",
+   "name_dynamic": null,
+   "has_header": true,
+   "has_home": false,
+   "ar_read": true,
+   "ar_write": true,
+   "ar_delete": false,
+   "ar_edit": false,
+   "public": true,
+   "discussion_type": "discussion",
+   "last_header_change": "2022-05-12T20:56:30",
+   "has_backups": false,
+   "hashtags": [
+    "test"
+   ],
+   "summary": "Bavíme se o API sociální sítě nyx.cz: jeho vývoji, dokumentaci ve Swaggeru, autentizaci přes tokeny a přechodu ze starého api.php na nové REST endpointy. Sdílíme tipy pro tvorbu mobilních klientů (And…"
+  },
+  "owner": {
+   "user": {
+    "username": "USER1"
+   }
+  },
+  "discussion_specific_data": {
+   "header": [
+    {
+     "id": 45141,
+     "discussion_id": 18379,
+     "location": "header",
+     "sort_order": 0,
+     "content": "Nove API:<br><a href=\"/files/000/024/2469449_54b41c66c40a3ce271de/original.bin?name=curl-auth.txt\" rel=\"noopener noreferrer\">Postup ziskani tokenu</a><br><br>Postupně vznikající popis API ve Swaggeru …",
+     "content_raw": {
+      "type": "text",
+      "data": {
+       "data": "Nove API:\r\n<a href=\"/files/000/024/2469449_54b41c66c40a3ce271de/original.bin?name=curl-auth.txt\">Postup ziskani tokenu</a>\r\n\r\nPostupně vznikající popis API ve Swaggeru (už by tam měl být nějaký základ…",
+       "format": "html"
+      }
+     },
+     "post_type": "text"
+    }
+   ]
+  },
+  "access_right": null,
+  "bookmark": null,
+  "waiting_files": []
+ },
+ "posts": [
+  {
+   "id": 59140734,
+   "discussion_id": 18379,
+   "username": "BOD",
+   "content": "<a class=r data-id=59140725 data-discussion-id=18379 href='/discussion/18379/id/59140725'>NYX</a>: je na to auditko pro moderatory, kohokoliv rozumneho pridam. kdyby s tim byli problemy a nestacil bla…",
+   "inserted_at": "2026-11-25T12:37:53",
+   "activity": {
+    "username": "BOD",
+    "last_activity": "2026-11-25T15:46:54",
+    "last_access_method": "Web",
+    "status": "Active",
+    "location": "pošta",
+    "location_url": "/mail"
+   },
+   "new": true,
+   "can_be_rated": true,
+   "can_be_reminded": true
+  },
+  {
+   "id": 59140725,
+   "discussion_id": 18379,
+   "username": "USER1",
+   "content": "<redacted>",
+   "replies": [
+    59140734
+   ],
+   "inserted_at": "2026-11-25T12:35:51",
+   "activity": {
+    "username": "USER1",
+    "last_activity": "2026-11-25T15:40:07",
+    "last_access_method": "Api",
+    "status": "Active",
+    "location": "",
+    "location_url": "/"
+   },
+   "new": true,
+   "can_be_rated": true,
+   "can_be_reminded": true
+  }
+ ],
+ "presence": []
+}

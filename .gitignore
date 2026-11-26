@@ -1,0 +1,4 @@
+.env
+secret.txt
+tests/results/
+__pycache__/
