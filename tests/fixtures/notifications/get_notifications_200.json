@@ -1,0 +1,103 @@
+{
+ "context": {
+  "user": {
+   "username": "NYXOT",
+   "mail_unread": 0,
+   "mail_last_from": "RSS",
+   "notifications_unread": 0,
+   "notifications_last_visit": "2025-07-29T12:47:28"
+  },
+  "active_friends": []
+ },
+ "notifications": [
+  {
+   "details": {
+    "thumbs_up": [
+     {
+      "username": "USER1",
+      "inserted_at": "2026-11-16T11:59:45"
+     },
+     {
+      "username": "USER2",
+      "inserted_at": "2026-11-15T20:49:48"
+     }
+    ],
+    "replies": [
+     {
+      "id": 59122591,
+      "discussion_id": 275939,
+      "username": "USER3",
+      "content": "<redacted>",
+      "inserted_at": "2026-11-16T13:10:42"
+     }
+    ]
+   },
+   "type": "post",
+   "data": {
+    "id": 59120957,
+    "discussion_id": 275939,
+    "domain_id": 14,
+    "discussion_name": "Za Paywallem? 🔐🗝️ Odemčeno. 🔑🔓 klub se 4 pravidly v záhlaví",
+    "user_id": 94404,
+    "username": "NYXOT",
+    "content": "<b>Disclaimer:</b> Toto je post vytvořený scriptem <font color=\"grey\">15.11.2026 17:00</font>, v případě odemčení reagujte na původní příspěvek žadatele, ne tento post. S připomínkami k fungování audi…",
+    "content_raw": {
+     "type": "text",
+     "data": {
+      "data": "<b>Disclaimer:</b> Toto je post vytvořený scriptem <font color='grey'>15.11.2026 17:00</font>, v případě odemčení reagujte na původní příspěvek žadatele, ne tento post. S připomínkami k fungování audi…",
+      "format": "html"
+     }
+    },
+    "post_type": "text",
+    "reminder": false,
+    "rating": 6,
+    "my_rating": null,
+    "rating_relative": 2,
+    "replies": [
+     59122591
+    ],
+    "inserted_at": "2026-11-15T17:00:39"
+   }
+  },
+  {
+   "details": {
+    "thumbs_up": [
+     {
+      "username": "USER4",
+      "inserted_at": "2026-09-07T20:42:46"
+     },
+     {
+      "username": "USER5",
+      "inserted_at": "2026-09-07T10:50:27"
+     }
+    ]
+   },
+   "type": "post",
+   "data": {
+    "id": 58970889,
+    "discussion_id": 275939,
+    "domain_id": 14,
+    "discussion_name": "Za Paywallem? 🔐🗝️ Odemčeno. 🔑🔓 klub se 4 pravidly v záhlaví",
+    "user_id": 94404,
+    "username": "NYXOT",
+    "content": "<b>Disclaimer:</b> Toto je post vytvořený scriptem <font color=\"grey\">06.09.2026 18:02</font>, v případě odemčení reagujte na původní příspěvek žadatele, ne tento post. S připomínkami k fungování audi…",
+    "content_raw": {
+     "type": "text",
+     "data": {
+      "data": "<b>Disclaimer:</b> Toto je post vytvořený scriptem <font color='grey'>06.09.2026 18:02</font>, v případě odemčení reagujte na původní příspěvek žadatele, ne tento post. S připomínkami k fungování audi…",
+      "format": "html"
+     }
+    },
+    "post_type": "text",
+    "reminder": false,
+    "rating": 5,
+    "my_rating": null,
+    "rating_relative": 2,
+    "replies": [
+     59120957
+    ],
+    "inserted_at": "2026-09-06T20:02:08"
+   }
+  }
+ ]
+}
