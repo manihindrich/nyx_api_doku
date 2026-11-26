@@ -96,8 +96,7 @@ curl -s -H "Authorization: Bearer $NYX_API_TOKEN" \
 > [!CAUTION]
 > **Not verified:** what `more_results` and `/history/more` add. The test account had only 10 history entries, and `show_load_more` was always `false`. Whether `1` means `true` cannot be told apart from the default.
 
-> [!NOTE]
-> Swagger lists `new_posts_count`, `new_replies_count`, `new_images_count` and `new_links_count` on each entry. They did not appear in any response; the account had no unread posts.
+- `new_posts_count`, `new_links_count` and `new_images_count` appear only when they are not zero, e.g. `"new_posts_count": 13, "new_links_count": 3` [B-14]. `new_replies_count`, listed by Swagger, never appeared.
 
 Fixtures: [`history_200.json`](../tests/fixtures/bookmarks/history_200.json), [`history_more_200.json`](../tests/fixtures/bookmarks/history_more_200.json)
 
