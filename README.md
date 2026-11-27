@@ -5,11 +5,37 @@
 <h1 align="center">NYX.CZ API — verified documentation</h1>
 
 <p align="center">
-  Unofficial documentation of the <a href="https://nyx.cz">nyx.cz</a> REST API.<br>
-  Every statement is checked against the live API.
+  A practical, test-backed guide to the <a href="https://nyx.cz">nyx.cz</a> REST API<br>
+  for anyone building a bot, a client or an integration.
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#documentation">Chapters</a> ·
+  <a href="#five-things-to-know-first">Five things to know</a> ·
+  <a href="#tests">Tests</a>
 </p>
 
 ---
+
+## What is nyx
+
+[nyx.cz](https://nyx.cz) is a long-running Czech online community. At its heart are **discussion clubs** on every topic imaginable, and around them sit private **mail**, **bookmarks** and reading history, **notifications** about replies and ratings, a personal **notepad**, file sharing, events and more.
+
+Besides the web interface, nyx offers a **REST API**: with a personal token you can read discussions, post, send mail, rate posts, manage access rights, upload files and search. That is what bots, alternative and mobile clients, feed readers and other integrations are built on.
+
+## What this repository is for
+
+Building on an API is easier when you know exactly how it behaves: which fields come back, what an error looks like, what happens at the edges. This repository answers those questions for every one of the 33 API operations, in plain chapters with copy-paste examples.
+
+It is written for developers who want to:
+
+- **write a bot or a client** without trial and error,
+- **look up** a request, a response shape or an error message quickly,
+- **re-check** any statement themselves: each one links to a live test that can be run again.
+
+> [!NOTE]
+> This is an independent community project, not official nyx.cz documentation. User names and IDs in the examples are placeholders.
 
 ## What you get
 
@@ -78,8 +104,6 @@ python3 -I tests/seg_search.py
 | `tests/fixtures/` | shortened sample responses; users, IDs and discussion names replaced by placeholders |
 | `tests/results/` | full recorded responses (local only, git-ignored) |
 | `tests/models_check.py` | compares response fields with the Swagger schemas |
-
-User names (`TESTUSER`, `PEERUSER`, `OTHERUSER`) and IDs in the examples are placeholders.
 
 ---
 
