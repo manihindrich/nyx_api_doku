@@ -25,8 +25,8 @@ curl -s -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/notificatio
   "notifications": [
     {
       "type": "post",
-      "data": { "id": 59120957, "discussion_id": 275939, "discussion_name": "…", "username": "NYXOT",
-                "user_id": 94404, "domain_id": 14, "inserted_at": "…", "content": "…", "content_raw": { … },
+      "data": { "id": 50000004, "discussion_id": 100007, "discussion_name": "…", "username": "TESTUSER",
+                "user_id": 10001, "domain_id": 14, "inserted_at": "…", "content": "…", "content_raw": { … },
                 "post_type": "text", "rating": 6, "rating_relative": 2, "my_rating": null,
                 "reminder": false, "replies": [ … ] },
       "details": {

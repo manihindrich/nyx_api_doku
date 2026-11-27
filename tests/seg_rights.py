@@ -1,5 +1,5 @@
-"""Live tests for segment `rights` (Swagger 0.0.1). Writes only to access rights of BOD in discussion 288360 (guard-enforced).
-BOD's rights are restored in `finally` and verified against the step-0 baseline."""
+"""Live tests for segment `rights` (Swagger 0.0.1). Writes only to access rights of the peer user in the test discussion (guard-enforced).
+The peer user's rights are restored in `finally` and verified against the step-0 baseline."""
 import json
 import re
 import sys
@@ -9,19 +9,19 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from http.client import IncompleteRead  # noqa: E402
 from nyx import Client, Forbidden, Result, save_fixture  # noqa: E402
+from nyx import PEER_USER, OTHER_USER, TEST_DISC, PUBLIC_DISC  # noqa: E402
 
 SEG = "rights"
-DISC = 288360            # "NYXOT ~ testing NYX API" (owner NYXOT): the only discussion written to
-BOD = "BOD"              # the only user whose rights are written
-RSS = "RSS"              # guard case only (must be Forbidden)
-OTHER_DISC = 18379       # guard case only (must be Forbidden)
+DISC = TEST_DISC            # "test discussion" (owner the test user): the only discussion written to
+PEER = PEER_USER              # the only user whose rights are written
+OTHER = OTHER_USER              # guard case only (must be Forbidden)
 DP = f"/discussion/{DISC}"
 RR = "/discussion/rights"
 RADD = "/discussion/rights/add"
 RIGHTS = ["read", "write", "delete", "edit", "edit_rights", "grant_edit_rights", "public"]
 # DiscussionAccessRight field per right; grant_edit_rights and public have no ar_* field there.
 FIELD = {"read": "ar_read", "write": "ar_write", "delete": "ar_delete", "edit": "ar_edit", "edit_rights": "ar_rights"}
-# grant_edit_rights never appears in any response. Brief says BOD has ALL rights -> assumed True.
+# grant_edit_rights never appears in any response. Brief says the peer user has ALL rights -> assumed True.
 GRANT_ASSUMED = True
 
 c = Client(SEG)
@@ -29,7 +29,7 @@ rows = []                # (tid, status, verdict, note)
 _n = [0]
 FIX = {}                 # fixture name -> first successful body
 ERRS = {}                # (status, message) -> first error body of that kind
-BASELINE = None          # BOD's DiscussionAccessRight body from step 0
+BASELINE = None          # the peer user's DiscussionAccessRight body from step 0
 BASE_PUBLIC = None       # discussion.public from step 0
 STARTED = False          # destructive calls begun -> restore required
 FINAL = None             # Result of final no-op verification call
@@ -84,14 +84,14 @@ def b(v):
     return "true" if v else "false"
 
 
-def pset(right, val, username=BOD, disc=DISC):
+def pset(right, val, username=PEER, disc=DISC):
     p = {"discussion_id": str(disc), "right": right, "set": val}
     if username is not None:
         p["username"] = username
     return p
 
 
-def padd(username=BOD, disc=DISC):
+def padd(username=PEER, disc=DISC):
     return {"discussion_id": str(disc), "username": username}
 
 
@@ -278,22 +278,22 @@ def step1():
 
 def step2():
     req("V1 set=1 right=read", "POST", RR, SET_CLAIM, j_info,
-        params={"discussion_id": str(DISC), "username": BOD, "right": "read", "set": "1"})
+        params={"discussion_id": str(DISC), "username": PEER, "right": "read", "set": "1"})
     req("V2 set=0 right=write", "POST", RR, SET_CLAIM, j_info,
-        params={"discussion_id": str(DISC), "username": BOD, "right": "write", "set": "0"})
+        params={"discussion_id": str(DISC), "username": PEER, "right": "write", "set": "0"})
     req("V2b restore write set=true", "POST", RR, SET_CLAIM, j_set("write", True),
         params=pset("write", "true"))
     req("V3 set=abc right=read", "POST", RR, SET_CLAIM, j_info,
-        params={"discussion_id": str(DISC), "username": BOD, "right": "read", "set": "abc"})
+        params={"discussion_id": str(DISC), "username": PEER, "right": "read", "set": "abc"})
     req("V4 right=foo", "POST", RR, SET_CLAIM, j_err((400,)),
-        params={"discussion_id": str(DISC), "username": BOD, "right": "foo", "set": "true"})
+        params={"discussion_id": str(DISC), "username": PEER, "right": "foo", "set": "true"})
     req("V5 right missing", "POST", RR, SET_CLAIM, j_err((400,)),
-        params={"discussion_id": str(DISC), "username": BOD, "set": "true"})
+        params={"discussion_id": str(DISC), "username": PEER, "set": "true"})
     req("V6 set missing", "POST", RR, SET_CLAIM, j_err((400,)),
-        params={"discussion_id": str(DISC), "username": BOD, "right": "read"})
+        params={"discussion_id": str(DISC), "username": PEER, "right": "read"})
     req("V7 form body (data=) POST rights", "POST", RR, FORM_CLAIM, j_info,
         data=pset("read", "true"))
-    req("V8 rights/add BOD (already listed)", "POST", RADD, ADD_CLAIM, j_ok,
+    req(f"V8 rights/add {PEER_USER} (already listed)", "POST", RADD, ADD_CLAIM, j_ok,
         params=padd(), fix="add_200")
     req("V9 rights/add form body (data=)", "POST", RADD, FORM_CLAIM, j_info, data=padd())
     req("V10 rights/add no token", "POST", RADD, AUTH_CLAIM, j_auth, params=padd(), auth=False)
@@ -304,9 +304,9 @@ def step2():
 
 
 def step3():
-    req("D1 DELETE rights BOD", "DELETE", RR, DEL_CLAIM, j_ok, params=padd(), fix="delete_200")
-    req("D2 DELETE BOD again", "DELETE", RR, DEL_CLAIM, j_info, params=padd())
-    req("D3 POST rights read=true (BOD removed)", "POST", RR, SET_CLAIM, j_err((400,)),
+    req(f"D1 DELETE rights {PEER_USER}", "DELETE", RR, DEL_CLAIM, j_ok, params=padd(), fix="delete_200")
+    req(f"D2 DELETE {PEER_USER} again", "DELETE", RR, DEL_CLAIM, j_info, params=padd())
+    req(f"D3 POST rights read=true ({PEER_USER} removed)", "POST", RR, SET_CLAIM, j_err((400,)),
         params=pset("read", "true"))
     req("D4 GET discussion after removal", "GET", DP, GET_CLAIM, j_get)
 
@@ -314,8 +314,8 @@ def step3():
 def guards():
     guarded("G1 username omitted (global rights)", "POST", RR, SET_CLAIM,
             params={"discussion_id": str(DISC), "right": "read", "set": "true"})
-    guarded("G2 username=RSS", "POST", RR, SET_CLAIM, params=pset("read", "true", username=RSS))
-    guarded("G3 discussion_id=18379", "POST", RR, SET_CLAIM, params=pset("read", "true", disc=OTHER_DISC))
+    guarded(f"G2 username={OTHER_USER}", "POST", RR, SET_CLAIM, params=pset("read", "true", username=OTHER))
+    guarded(f"G3 discussion_id={PUBLIC_DISC}", "POST", RR, SET_CLAIM, params=pset("read", "true", disc=PUBLIC_DISC))
 
 
 def restore():
@@ -326,7 +326,7 @@ def restore():
     if BASELINE is None or BASE_PUBLIC is None:
         print("RESTORE IMPOSSIBLE: no baseline captured")
         return
-    req("R1 rights/add BOD (re-add)", "POST", RADD, ADD_CLAIM, j_ok, params=padd())
+    req(f"R1 rights/add {PEER_USER} (re-add)", "POST", RADD, ADD_CLAIM, j_ok, params=padd())
     for right in RIGHTS:
         want = target(right)
         req(f"R2 set {right}={b(want)}", "POST", RR, SET_CLAIM, j_set(right, want),
@@ -337,7 +337,7 @@ def restore():
 
 
 def report_final():
-    print("\n=== BASELINE vs FINAL (BOD in discussion %d) ===" % DISC)
+    print(f"\n=== BASELINE vs FINAL ({PEER_USER} in discussion %d) ===" % DISC)
     print("BASELINE:", json.dumps(BASELINE, ensure_ascii=False, sort_keys=True))
     fb = FINAL.body if FINAL is not None else None
     print("FINAL   :", json.dumps(fb, ensure_ascii=False, sort_keys=True))

@@ -1,9 +1,9 @@
 {
  "context": {
   "user": {
-   "username": "NYXOT",
+   "username": "TESTUSER",
    "mail_unread": 0,
-   "mail_last_from": "RSS",
+   "mail_last_from": "OTHERUSER",
    "notifications_unread": 0,
    "notifications_last_visit": "2025-07-29T12:47:28"
   },
@@ -18,11 +18,11 @@
    },
    "bookmarks": [
     {
-     "discussion_id": 288360,
+     "discussion_id": 100001,
      "is_owner": true,
-     "full_name": "NYXOT ~ testing NYX API",
+     "full_name": "Test discussion",
      "last_visited_at": "2026-11-25T16:21:17",
-     "last_seen_post_id": 59141296
+     "last_seen_post_id": 50000019
     }
    ]
   },
@@ -33,10 +33,10 @@
    },
    "bookmarks": [
     {
-     "discussion_id": 275939,
-     "full_name": "Za Paywallem? 🔐🗝️ Odemčeno. 🔑🔓 klub se 4 pravidly v záhlaví",
+     "discussion_id": 100007,
+     "full_name": "Example discussion A",
      "last_visited_at": "2026-11-25T15:27:38",
-     "last_seen_post_id": 59141151
+     "last_seen_post_id": 50000014
     }
    ]
   }

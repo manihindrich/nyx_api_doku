@@ -6,14 +6,18 @@
 
 <p align="center">
   Unofficial documentation of the <a href="https://nyx.cz">nyx.cz</a> REST API.<br>
-  Every statement is checked against the live API, not copied from the spec.
+  Every statement is checked against the live API.
 </p>
 
 ---
 
-## Why
+## What you get
 
-The official [Swagger 0.0.1](https://app.swaggerhub.com/apis/nyx.cz/nyx.cz/0.0.1) is incomplete and wrong in many places. This repository describes what the API **actually does**. Each claim links to a live test (`[T-mail-22]`), and every place where reality differs from Swagger is marked **Swagger says** and summarised in [Swagger vs. reality](docs/15_swagger-diff.md). Anything that could not be tested is marked **Not verified**.
+- **Verified behaviour.** Every statement was checked against the live API and links to the test that backs it (`[T-mail-22]`). Anything that could not be tested is marked **Not verified**.
+- **Real examples.** Requests and responses as the API returns them today.
+- **Exact errors.** Status codes and every error message seen, with their causes.
+- **Edge cases.** Paging, booleans, duplicates, HTML handling, file uploads, access rights.
+- **Practical advice** from running a bot on the API.
 
 Tested 2026-11-25 to 2026-11-27: 414 recorded live requests covering all 33 operations.
 
@@ -47,11 +51,11 @@ Base URL: `https://nyx.cz/api`. Responses are JSON.
 | [Models](docs/12_models.md) | shared objects and field rules |
 | [HTML](docs/13_html.md) | which HTML is kept, changed or removed |
 | [Good practice](docs/14_practices.md) | lessons from running a bot on the API |
-| [Swagger vs. reality](docs/15_swagger-diff.md) | all differences in one place |
+| [Notes on the spec](docs/15_swagger-diff.md) | where the observed behaviour differs from the published spec |
 
 ## Five things to know first
 
-1. **Missing means false.** Boolean flags and counters are left out when unset ([Models](docs/12_models.md#general-rules)).
+1. **Missing means false in posts.** In post objects, boolean flags and counters are left out when unset; elsewhere `false` and `0` do appear ([Models](docs/12_models.md#general-rules)).
 2. **Writes return `{}`.** Find the new post or message ID by reading it back ([Good practice](docs/14_practices.md#writing-posts-and-mail)).
 3. **Duplicates are rejected.** A text identical to your previous post or message fails with 400.
 4. **Errors are loose.** Many invalid values are ignored with 200; others return 422, not 400 ([Errors](docs/11_errors.md)).
@@ -61,20 +65,21 @@ Base URL: `https://nyx.cz/api`. Responses are JSON.
 
 The tests are the evidence for the documentation. They run against the live API with a real account and **write** to it, so they are guarded: writes are allowed only to one test discussion, one mail recipient and objects the run created itself (see `ALLOWLIST` in [`tests/nyx.py`](tests/nyx.py)).
 
+Copy [`.env.example`](.env.example) to `.env` (git-ignored) and fill in your token and your own test accounts and discussion. Then:
+
 ```bash
-# token from the environment or from a .env file (never commit it)
-NYX_ENV_FILE=/path/to/.env python3 -I tests/seg_search.py
+python3 -I tests/seg_search.py
 ```
 
 | Path | Content |
 |---|---|
 | `tests/nyx.py` | client: auth, pacing (1 request/s), retry, write allowlist, recording |
 | `tests/seg_*.py` | one script per chapter; prints `T-id \| status \| verdict` |
-| `tests/fixtures/` | shortened sample responses, other users anonymised |
+| `tests/fixtures/` | shortened sample responses; users, IDs and discussion names replaced by placeholders |
 | `tests/results/` | full recorded responses (local only, git-ignored) |
 | `tests/models_check.py` | compares response fields with the Swagger schemas |
 
-Before running write tests, change the allowlist to your own test discussion and recipient.
+User names (`TESTUSER`, `PEERUSER`, `OTHERUSER`) and IDs in the examples are placeholders.
 
 ---
 

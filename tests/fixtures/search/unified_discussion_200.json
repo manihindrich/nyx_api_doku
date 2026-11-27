@@ -2,18 +2,18 @@
  "discussion": {
   "discussions": [
    {
-    "id": 5818,
+    "id": 100005,
     "discussion_type": "discussion",
-    "discussion_name": "Nyxoti – curaci a píče na nyxu, aneb seznam kretenu ktery je nutny zastrelit aktuálně =RETROKAUZY=::DOUBLE IGNORE->VУИáLƎz pRoŤi sTaLKiNGu!!!§§!",
-    "discussion_name_highlighted": "<em class='search-match'>Nyxoti</em> – curaci a píče na nyxu, aneb seznam kretenu ktery je nutny zastrelit aktuálně =RETROKAUZY=::DOUBLE IGNORE-&gt;VУИáLƎz pRoŤi sTaLKiNGu!!!§§!",
+    "discussion_name": "Example discussion F",
+    "discussion_name_highlighted": "Example <em class='search-match'>discussion</em> F",
     "summary": "",
     "summary_highlighted": ""
    },
    {
-    "id": 288360,
+    "id": 100001,
     "discussion_type": "discussion",
-    "discussion_name": "NYXOT ~ testing NYX API",
-    "discussion_name_highlighted": "<em class='search-match'>NYXOT</em> ~ testing NYX API",
+    "discussion_name": "Test discussion",
+    "discussion_name_highlighted": "Test <em class='search-match'>discussion</em>",
     "summary": "",
     "summary_highlighted": ""
    }

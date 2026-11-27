@@ -1,9 +1,9 @@
 {
  "context": {
   "user": {
-   "username": "NYXOT",
+   "username": "TESTUSER",
    "mail_unread": 0,
-   "mail_last_from": "RSS",
+   "mail_last_from": "OTHERUSER",
    "notifications_unread": 0,
    "notifications_last_visit": "2025-07-29T12:47:28"
   },
@@ -11,9 +11,9 @@
  },
  "posts": [
   {
-   "id": 59141146,
-   "discussion_id": 4,
-   "discussion_name": "Co vas nedavno potesilo nebo pobavilo?",
+   "id": 50000012,
+   "discussion_id": 100003,
+   "discussion_name": "Example discussion D",
    "username": "USER1",
    "content": "<redacted>",
    "rating": 7,
@@ -23,21 +23,21 @@
     "last_activity": "2026-11-25T15:27:43",
     "last_access_method": "Web",
     "status": "Active",
-    "location": "Co vas nedavno potesilo nebo pobavilo?",
-    "location_url": "/discussion/4"
+    "location": "Example discussion D",
+    "location_url": "/discussion/100003"
    },
    "can_be_rated": true,
    "can_be_reminded": true
   },
   {
-   "id": 59140874,
-   "discussion_id": 1995,
-   "discussion_name": "Artificial Intelligence AI",
+   "id": 50000009,
+   "discussion_id": 100004,
+   "discussion_name": "Example discussion E",
    "username": "USER2",
    "content": "<redacted>",
    "rating": 8,
    "replies": [
-    59140979
+    50000010
    ],
    "inserted_at": "2026-11-25T13:27:57",
    "can_be_rated": true,

@@ -23,7 +23,7 @@ curl -s -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/notepad
 
 ```json
 {
-  "context": { "user": { "username": "NYXOT", "mail_unread": 0, "mail_last_from": "RSS",
+  "context": { "user": { "username": "TESTUSER", "mail_unread": 0, "mail_last_from": "OTHERUSER",
                          "notifications_unread": 0, "notifications_last_visit": "2025-07-29T12:47:28" },
                "active_friends": [] },
   "selected_entry": null,
@@ -67,7 +67,7 @@ curl -s -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/notepad/123
 | non-numeric ID (`abc`) | 404 | `{"error": true, "message": "Not Found"}` | T-notepad-06 |
 
 > [!WARNING]
-> **Swagger says** a missing note returns 400 "The specified resource was not found" in `JsonError` with a `code` field. In reality the message is the Czech text above and there is no `code`. Swagger does not list 404.
+> **Swagger says** the 200 response has `selected_entry` filled "if it exists"; for errors it only has the generic 400 `JsonError` (described as "The specified resource was not found", shared by all operations). In reality a missing note returns 400 with the Czech text above and no `code`. Swagger does not list 404.
 
 ---
 

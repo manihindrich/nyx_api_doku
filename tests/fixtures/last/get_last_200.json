@@ -1,9 +1,9 @@
 {
  "context": {
   "user": {
-   "username": "NYXOT",
+   "username": "TESTUSER",
    "mail_unread": 0,
-   "mail_last_from": "RSS",
+   "mail_last_from": "OTHERUSER",
    "notifications_unread": 0,
    "notifications_last_visit": "2025-07-29T12:47:28"
   },
@@ -11,9 +11,9 @@
  },
  "posts": [
   {
-   "id": 59141221,
-   "discussion_id": 284395,
-   "discussion_name": "Rano to smažu 2 – \"nerouhej se, přivoláš Motoristy\"",
+   "id": 50000017,
+   "discussion_id": 100009,
+   "discussion_name": "Example discussion B",
    "username": "USER1",
    "content": "<redacted>",
    "inserted_at": "2026-11-25T15:34:04",
@@ -21,9 +21,9 @@
    "can_be_reminded": true
   },
   {
-   "id": 59141220,
-   "discussion_id": 24496,
-   "discussion_name": "Klimaticka zmena / Destroying the Future Is the Most Cost-Effective",
+   "id": 50000016,
+   "discussion_id": 100006,
+   "discussion_name": "Example discussion C",
    "username": "USER2",
    "content": "<redacted>",
    "inserted_at": "2026-11-25T15:33:46",
@@ -32,8 +32,8 @@
     "last_activity": "2026-11-25T15:34:33",
     "last_access_method": "Web",
     "status": "Active",
-    "location": "Klimaticka zmena / Destroying the Future Is the Most Cost-Effective",
-    "location_url": "/discussion/24496"
+    "location": "Example discussion C",
+    "location_url": "/discussion/100006"
    },
    "can_be_rated": true,
    "can_be_reminded": true
@@ -41,13 +41,13 @@
  ],
  "ignored_domains": [
   {
-   "user_id": 94404,
+   "user_id": 10001,
    "domain_id": 1,
    "name": "SYSTEMOVE KLUBY",
    "ignored": false
   },
   {
-   "user_id": 94404,
+   "user_id": 10001,
    "domain_id": 2,
    "name": "MĚSTA, ŠKOLY, FIRMY, AKCE, SRAZY",
    "ignored": false

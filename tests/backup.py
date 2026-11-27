@@ -9,9 +9,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from nyx import RESULTS, Client  # noqa: E402
+from nyx import TEST_DISC  # noqa: E402
 
 TARGETS = {
-    "discussion_288360": ("/discussion/288360", None),
+    f"discussion_{TEST_DISC}": (f"/discussion/{TEST_DISC}", None),
     "bookmarks": ("/bookmarks", None),
     "bookmarks_all": ("/bookmarks/all", None),
     "bookmarks_history": ("/bookmarks/history", {"show_read": "true", "show_booked": "true"}),

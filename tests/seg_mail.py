@@ -1,4 +1,4 @@
-"""Live tests for segment `mail` (Swagger 0.0.1). Writes only to recipient BOD (guard-enforced)."""
+"""Live tests for segment `mail` (Swagger 0.0.1). Writes only to recipient the peer user (guard-enforced)."""
 import re
 import sys
 import urllib.parse
@@ -8,6 +8,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from http.client import IncompleteRead  # noqa: E402
 from nyx import Client, Result, save_fixture, nonce  # noqa: E402
+from nyx import TEST_USER, PEER_USER  # noqa: E402
 
 SEG = "mail"
 c = Client(SEG)
@@ -167,7 +168,7 @@ def check_user(want):
         v, note = check_200(r)
         if v != "OK":
             return v, note
-        extra = users_in(r) - {want, "NYXOT"}
+        extra = users_in(r) - {want, TEST_USER}
         return ("INFO", f"posts from other users {sorted(extra)}; {note}") if extra else ("OK", note)
     return f
 
@@ -248,10 +249,10 @@ words = [w for p in posts_of(base) for w in re.findall(r"[^\W\d_]{4,}", plain(p.
 word = words[0] if words else "test"
 P = base_posts[len(base_posts) // 2] if len(base_posts) >= 2 else None
 
-r_bod = read("user=BOD", {"user": "BOD"}, "user Username [A-Z0-9_]{3,15}", check_user("BOD"))
-r_bod_lc = read("user=bod", {"user": "bod"}, "user pattern uppercase; lowercase case",
+r_peer = read(f"user={PEER_USER}", {"user": PEER_USER}, "user Username [A-Z0-9_]{3,15}", check_user(PEER_USER))
+r_peer_lc = read(f"user={PEER_USER.lower()}", {"user": PEER_USER.lower()}, "user pattern uppercase; lowercase case",
                 lambda r: ("OK", f"400 for lowercase ({err_shape(r)})") if r.status == 400
-                else ("INFO", f"status {r.status}; ids identical to user=BOD: {ids_of(r) == ids_of(r_bod)}"))
+                else ("INFO", f"status {r.status}; ids identical to user={PEER_USER}: {ids_of(r) == ids_of(r_peer)}"))
 read(f"text={word}", {"text": word}, f"text SearchExpression; word '{word}' from a returned post",
      check_word(word))
 read("order=newest", {"order": "newest"}, "order=newest", check_dir(True))
@@ -273,13 +274,13 @@ read("order=foo", {"order": "foo"}, "order enum", expect_400("enum"))
 read("no token", None, "undocumented: no bearer token (no 401 in Swagger)", check_anon, auth=False)
 read("invalid token", None, "undocumented: invalid bearer token", check_anon, auth=("invalidtoken123"))
 
-# ---------------------------------------------------------------- writes (BOD only, 7 sends max)
+# ---------------------------------------------------------------- writes (the peer user only, 7 sends max)
 SENT = {}
 
 
 def find_by(n):
-    """Newest BOD mail page; return post whose content contains nonce n."""
-    r = C("GET", "/mail", params={"user": "BOD", "order": "newest"})
+    """Newest mail page with the peer user; return post whose content contains nonce n."""
+    r = C("GET", "/mail", params={"user": PEER_USER, "order": "newest"})
     for p in posts_of(r):
         if n in (p.get("content") or ""):
             return p
@@ -287,7 +288,7 @@ def find_by(n):
 
 
 def do_send(label, message, fmt=None, n=None, expect_err=False, undoc=False):
-    data = {"recipient": "BOD", "message": message}
+    data = {"recipient": PEER_USER, "message": message}
     if fmt is not None:
         data["format"] = fmt
     t = tid()
@@ -305,7 +306,7 @@ def do_send(label, message, fmt=None, n=None, expect_err=False, undoc=False):
         return None
     found = find_by(n)
     if found is None:
-        emit(t, 200, "FAIL", f"{label}: 200 but nonce not found in GET /mail?user=BOD&order=newest", r)
+        emit(t, 200, "FAIL", f"{label}: 200 but nonce not found in GET /mail?user={PEER_USER}&order=newest", r)
         return None
     same = found.get("content") == message
     note = (f"body={r.body!r} id={found.get('id')} incoming={found.get('incoming')!r} "
@@ -331,7 +332,7 @@ try:
     rid = SENT.get("format=text")
 
     def state_of(pid):
-        r = C("GET", "/mail", params={"user": "BOD"})
+        r = C("GET", "/mail", params={"user": PEER_USER})
         if r.status != 200:
             return f"GET {r.status}"
         flag = [p.get("reminder") for p in posts_of(r) if p.get("id") == pid]

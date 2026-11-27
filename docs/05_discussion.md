@@ -13,14 +13,14 @@ Reading discussions and working with posts. Access rights of other users are in 
 | `GET`, `POST` | `/api/discussion/{discussion_id}/bookmark` | Watch / unwatch the discussion |
 | `POST` | `/api/discussion/{discussionId}/content/{contentId}/save` | Edit a header (board) section |
 
-Verification: live tests in [`tests/seg_discussion.py`](../tests/seg_discussion.py), 2026-11-25, in discussion 288360 (owned by the test account) and read-only in the public discussion 18379. Test IDs are in brackets, `T-` prefix omitted (`D-25` = `T-discussion-25`).
+Verification: live tests in [`tests/seg_discussion.py`](../tests/seg_discussion.py), 2026-11-25, in discussion 100001 (owned by the test account) and read-only in the public discussion 100002. Test IDs are in brackets, `T-` prefix omitted (`D-25` = `T-discussion-25`).
 
 ---
 
 ## GET /api/discussion/{discussionId}
 
 ```bash
-curl -s -H "Authorization: Bearer $NYX_API_TOKEN" "https://nyx.cz/api/discussion/18379?rating=2"
+curl -s -H "Authorization: Bearer $NYX_API_TOKEN" "https://nyx.cz/api/discussion/100002?rating=2"
 ```
 
 | Parameter | Type | Effect |
@@ -55,18 +55,18 @@ One page has **20** posts, newest first [D-10].
 {
   "context": { … },
   "discussion_common": {
-    "discussion": { "id": 288360, "name_static": "NYXOT ~ testing NYX API", "discussion_type": "discussion",
+    "discussion": { "id": 100001, "name_static": "Test discussion", "discussion_type": "discussion",
                     "ar_read": false, "ar_write": false, "ar_delete": false, "ar_edit": false, … },
-    "owner": { "user": { "username": "NYXOT" } },
+    "owner": { "user": { "username": "TESTUSER" } },
     "access_right": null,
-    "bookmark": { "discussion_id": 288360, "bookmark": true, "category_id": null, "replies_count": 0,
-                  "last_seen_post_id": 59141296, "last_visited_at": "2026-11-25T15:57:28" },
-    "discussion_specific_data": { "header": [ { "id": 68704, "location": "header", "sort_order": 2,
+    "bookmark": { "discussion_id": 100001, "bookmark": true, "category_id": null, "replies_count": 0,
+                  "last_seen_post_id": 50000019, "last_visited_at": "2026-11-25T15:57:28" },
+    "discussion_specific_data": { "header": [ { "id": 60004, "location": "header", "sort_order": 2,
         "content": "…", "content_raw": { "type": "text", "data": { "data": "…", "format": "html" } } } ] },
     "waiting_files": []
   },
   "posts": [
-    { "id": 59141147, "discussion_id": 288360, "username": "BOD", "inserted_at": "…", "content": "…",
+    { "id": 50000013, "discussion_id": 100001, "username": "PEERUSER", "inserted_at": "…", "content": "…",
       "can_be_deleted": true, "can_be_rated": true, "can_be_reminded": true, "activity": { … } }
   ],
   "presence": []
@@ -81,14 +81,14 @@ One page has **20** posts, newest first [D-10].
 > The `ar_*` flags in `discussion` were all `false` for the discussion owner, who could still write, delete and edit [D-01, D-25, D-86]. Do not use them to decide what the user may do; try the action and handle the error.
 
 > [!WARNING]
-> **Swagger says** the response has only `context` and `posts`. It does not describe `discussion_common` or `presence`.
+> **Swagger says** only `context` and `posts` are required; `discussion_common` and `presence` are described as optional. In reality all four are always present.
 
 ### Access without a token
 
 | Discussion | Token | Status | Body | Test |
 |---|---|---|---|---|
-| public (18379) | missing or invalid | **200**, full content | | D-99, -100 |
-| 288360 | missing or invalid | 400 | `{"error": true, "message": "Přístup odmítnut."}` | D-23, -24 |
+| public (100002) | missing or invalid | **200**, full content | | D-99, -100 |
+| 100001 | missing or invalid | 400 | `{"error": true, "message": "Přístup odmítnut."}` | D-23, -24 |
 | non-existent (`999999999`) | any | 400 | `{"error": true, "message": "Nepodařilo se načíst diskuzi."}` | D-97, -98 |
 | `abc` | valid | 404 | `{"error": true, "message": "Not Found"}` | D-22 |
 
@@ -105,7 +105,7 @@ Form fields: `content` (required), `format` (`text` or `html`).
 ```bash
 curl -s -H "Authorization: Bearer $NYX_API_TOKEN" \
   --data-urlencode "content=Hello" -d "format=html" \
-  https://nyx.cz/api/discussion/288360/send/text
+  https://nyx.cz/api/discussion/100001/send/text
 ```
 
 **200** `{}`. The response does not contain the post ID. To find it, read the discussion (`?user=<you>&order=newest`) and match the content [D-25].
@@ -116,6 +116,7 @@ curl -s -H "Authorization: Bearer $NYX_API_TOKEN" \
 | `html` | `<b>bold</b>⏎line2` | `<b>bold</b><br>line2` | D-26 |
 | `markdown` (undocumented) | `**bold**` | `**bold**`, not converted | D-27 |
 | missing | plain text | plain text | D-28 |
+| `foo` (invalid) | text | accepted with 200, not rejected | T-verify-39 |
 
 A 20 000-character post was accepted [D-32].
 
@@ -132,7 +133,7 @@ A 20 000-character post was accepted [D-32].
 ## DELETE /api/discussion/{discussion_id}/delete/{id}
 
 ```bash
-curl -s -X DELETE -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/discussion/288360/delete/59141292
+curl -s -X DELETE -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/discussion/100001/delete/50000018
 ```
 
 **200** `{}`, the post is gone [D-86, -87]. Deleting it again: 400 `{"error": true, "message": "Příspěvek neexistuje."}` [D-88].
@@ -147,7 +148,7 @@ curl -s -X DELETE -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/d
 **200** list of users who rated the post **positively** [D-47]:
 
 ```json
-[ { "username": "NYXOT", "tag": "positive" } ]
+[ { "username": "TESTUSER", "tag": "positive" } ]
 ```
 
 Negative ratings (`negative`, `negative_visible`) are not listed [D-49, -51]. A post without positive ratings or a non-existent ID returns `[]` [D-35, D-55].
@@ -158,7 +159,7 @@ Negative ratings (`negative`, `negative_visible`) are not listed [D-49, -51]. A 
 
 ```bash
 curl -s -X POST -H "Authorization: Bearer $NYX_API_TOKEN" \
-  https://nyx.cz/api/discussion/288360/rating/59141147/positive
+  https://nyx.cz/api/discussion/100001/rating/50000013/positive
 ```
 
 **200** returns the updated post [D-46…52]:
@@ -199,7 +200,7 @@ Query parameters: `new_state` (`true`/`false`, required), `category` (bookmark c
 
 ```bash
 curl -s -X POST -H "Authorization: Bearer $NYX_API_TOKEN" \
-  "https://nyx.cz/api/discussion/288360/bookmark?new_state=true"
+  "https://nyx.cz/api/discussion/100001/bookmark?new_state=true"
 ```
 
 **200** `{}`. The state is visible in `discussion_common.bookmark` of `GET /api/discussion/{id}`.
@@ -225,7 +226,7 @@ Replaces the content of a header (board) section. Form fields: `content`, `forma
 ```bash
 curl -s -H "Authorization: Bearer $NYX_API_TOKEN" \
   --data-urlencode $'content=line1\nline2' -d "format=html" \
-  https://nyx.cz/api/discussion/288360/content/68704/save
+  https://nyx.cz/api/discussion/100001/content/60004/save
 ```
 
 **200** `{}`. The new text is stored in `content_raw.data.data` exactly as sent, including `\r\n` [D-82, D-108, -109].

@@ -5,6 +5,7 @@ Objects that appear in several endpoints. The field lists were produced by [`tes
 ## General rules
 
 - **Optional fields are omitted, not `null`.** Flags such as `incoming`, `reminder`, `is_owner`, `new` and `can_be_*` never appeared with `false`; counters such as `new_posts_count` never appeared as `0`. Treat a missing field as `false` / `0`.
+- This applies to post objects. Elsewhere `false` and `0` do appear, for example `discussion_common.discussion.public`, `access_right.ar_*`, `show_load_more` in history, `ignored` in `/last`, `mail_unread`, `replies_count`.
 - Exception: in [notifications](08_notifications.md) the post in `data` always has `rating`, `my_rating` (may be `null`) and `reminder` (may be `false`).
 - Timestamps have no time zone: `"2026-11-25T15:44:18"`.
 - URLs of files are relative to `https://nyx.cz`.
@@ -16,7 +17,7 @@ Objects that appear in several endpoints. The field lists were produced by [`tes
 Returned as `context` by almost every `GET`.
 
 ```json
-{ "user": { "username": "NYXOT", "mail_unread": 0, "mail_last_from": "RSS",
+{ "user": { "username": "TESTUSER", "mail_unread": 0, "mail_last_from": "OTHERUSER",
             "notifications_unread": 0, "notifications_last_visit": "2025-07-29T12:47:28" },
   "active_friends": [] }
 ```
@@ -28,7 +29,7 @@ Matches Swagger (`Context`, `User`).
 Where and when a user was last active. Attached to posts, mail and users as `activity`.
 
 ```json
-{ "username": "NYXOT", "last_activity": "2026-11-25T15:37:16", "last_access_method": "Api",
+{ "username": "TESTUSER", "last_activity": "2026-11-25T15:37:16", "last_access_method": "Api",
   "status": "Active", "location": "hledat", "location_url": "/search" }
 ```
 

@@ -37,7 +37,7 @@ Attached images are added below the post text in `<div class='image-attachments'
 
 ```bash
 curl -s -X PUT -H "Authorization: Bearer $NYX_API_TOKEN" \
-  -F "file=@image.png;type=image/png" -F "file_type=discussion_attachment" -F "id_specific=288360" \
+  -F "file=@image.png;type=image/png" -F "file_type=discussion_attachment" -F "id_specific=100001" \
   https://nyx.cz/api/file/upload
 ```
 
@@ -45,12 +45,12 @@ curl -s -X PUT -H "Authorization: Bearer $NYX_API_TOKEN" \
 
 ```json
 {
-  "id": 3169058, "file_type": "discussion_attachment", "id_specific": 288360, "id_specific2": null,
+  "id": 9000002, "file_type": "discussion_attachment", "id_specific": 100001, "id_specific2": null,
   "filename": "nyxapidoku-1207828a8b.png", "size": 69, "uploaded_at": "2026-11-27T00:15:10", "mimetype": "image/png",
   "image_width": 1, "image_height": 1, "image_avg_color_hex": "ff0000",
   "image_embed": true, "image_embed_option": "full",
-  "url": "/files/000/031/3169058_493214691a268c4a3481/original.png?name=nyxapidoku-1207828a8b.png",
-  "thumb_url": "/files/000/031/3169058_493214691a268c4a3481/square.jpg"
+  "url": "/files/000/000/9000002_00000000000000000001/original.png?name=nyxapidoku-1207828a8b.png",
+  "thumb_url": "/files/000/000/9000002_00000000000000000001/square.jpg"
 }
 ```
 
@@ -67,7 +67,7 @@ curl -s -X PUT -H "Authorization: Bearer $NYX_API_TOKEN" \
 | missing or invalid token | 401 | `{"error": {"code": 401, "reason": "Unauthorized", "description": "The request requires user authentication."}}` | F-20, -21 |
 
 > [!WARNING]
-> **Swagger says** `mimetype` is one of five values and that `thumb_url` is a string. In reality any file is accepted (unknown types become `octet/stream`), and `thumb_url` is `null` for non-images. The field `image_embed_option` is not documented.
+> **Swagger says** `mimetype` is one of five values and that `thumb_url` is a string. In reality every type tried was accepted (PDF, ZIP, text, binary, up to 5 MB; unknown types become `octet/stream`), and `thumb_url` is `null` for non-images. The field `image_embed_option` is not documented.
 
 Fixtures: [`upload_200.json`](../tests/fixtures/file/upload_200.json), [`waiting_files_example.json`](../tests/fixtures/file/waiting_files_example.json)
 
@@ -78,7 +78,7 @@ Fixtures: [`upload_200.json`](../tests/fixtures/file/upload_200.json), [`waiting
 `state=true` shows an image inline, `false` as a link.
 
 ```bash
-curl -s -X POST -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/file/embed/3169058/false
+curl -s -X POST -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/file/embed/9000002/false
 ```
 
 **200** `{}` [F-27, -28]. `state=1` or `abc`: 422 [F-29, -30].
@@ -91,7 +91,7 @@ curl -s -X POST -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/fil
 ## DELETE /api/file/delete/{id}
 
 ```bash
-curl -s -X DELETE -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/file/delete/3169058
+curl -s -X DELETE -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/file/delete/9000002
 ```
 
 **200** `{}` [F-32]. Deleting the same file again also returns **200** `{}` [F-33].

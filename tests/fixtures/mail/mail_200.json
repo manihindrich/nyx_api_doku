@@ -1,9 +1,9 @@
 {
  "context": {
   "user": {
-   "username": "NYXOT",
+   "username": "TESTUSER",
    "mail_unread": 0,
-   "mail_last_from": "RSS",
+   "mail_last_from": "OTHERUSER",
    "notifications_unread": 0,
    "notifications_last_visit": "2025-07-29T12:47:28"
   },
@@ -23,17 +23,17 @@
    }
   },
   {
-   "username": "BOD",
+   "username": "PEERUSER",
    "conversed_at": "2026-11-25T10:29:37"
   }
  ],
  "posts": [
   {
-   "id": 176691966,
+   "id": 70000003,
    "username": "USER1",
    "content": "<redacted>",
    "inserted_at": "2026-11-25T13:43:18",
-   "other_mail_id": 176691967,
+   "other_mail_id": 70000004,
    "activity": {
     "username": "USER1",
     "last_activity": "2026-11-25T15:43:16",
@@ -44,12 +44,12 @@
    }
   },
   {
-   "id": 176691965,
+   "id": 70000002,
    "username": "USER1",
    "incoming": true,
    "content": "<redacted>",
    "inserted_at": "2026-11-25T13:43:04",
-   "other_mail_id": 176691964,
+   "other_mail_id": 70000001,
    "activity": {
     "username": "USER1",
     "last_activity": "2026-11-25T15:43:16",

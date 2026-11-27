@@ -35,7 +35,7 @@ Posts and mail behave **identically** [all 34 lines].
 | `<div class='spoiler'>` | `<div class="spoiler">` (quotes normalised) | 17 |
 | `<table><tr>` | `<tbody>` added | 30 |
 | bare URL `https://example.com/path` | `<a class="extlink" href="…">…</a>` | 27 |
-| nyx discussion URL `https://nyx.cz/discussion/18379` | `<a href="/discussion/18379">[nyx :: API]</a>` | 28 |
+| nyx discussion URL `https://nyx.cz/discussion/100002` | `<a href="/discussion/100002">[Public discussion]</a>` | 28 |
 | newline `\n` | `<br>` | 34 |
 
 ### Removed
@@ -63,7 +63,7 @@ Posts and mail behave **identically** [all 34 lines].
 6. When reading incoming content, links are `<a href=…>`; take the URL from `href`, not from the link text (discussion links show `[name]`).
 
 > [!NOTE]
-> An earlier observation in the nyx-rss project (2026-11-24) found that a URL inside a `title` attribute broke the HTML. In this test it was kept intact [line 25]. The case is unresolved; avoid URLs in `title`.
+> An earlier observation in the bot project (2026-11-24) found that a URL inside a `title` attribute broke the HTML. In this test it was kept intact [line 25]. The case is unresolved; avoid URLs in `title`.
 
 > [!CAUTION]
 > **Not verified:** maximum length of formatted content (a 20 000-character plain post was accepted, see [Discussion](05_discussion.md)), and `format=markdown` beyond the fact that it is stored unconverted.

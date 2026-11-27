@@ -20,8 +20,8 @@ Verification: live tests in [`tests/seg_search.py`](../tests/seg_search.py), 202
 | `test` | words **starting** with `test` (`testy`, `tested`, `testosterone`) | T-search-22 |
 | `=test` | the exact word `test`, any letter case | T-search-26 |
 | `"testing NYX"` | the phrase | T-search-27 |
-| `@NYXOT` | posts by `NYXOT` | T-search-28 |
-| `@NYXOT test` | posts by `NYXOT` containing `test…` | T-search-29 |
+| `@TESTUSER` | posts by `TESTUSER` | T-search-28 |
+| `@TESTUSER test` | posts by `TESTUSER` containing `test…` | T-search-29 |
 
 Matches in `content` are wrapped in `<em class='search-match'>…</em>` [T-search-22].
 
@@ -41,15 +41,15 @@ curl -s -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/search/user
 {
   "exact":   [ { "username": "NYX" } ],
   "friends": [],
-  "others":  [ { "username": "NYXOT",
-                 "activity": { "username": "NYXOT", "last_activity": "2026-11-25T15:37:16",
+  "others":  [ { "username": "TESTUSER",
+                 "activity": { "username": "TESTUSER", "last_activity": "2026-11-25T15:37:16",
                                "last_access_method": "Api", "status": "Active",
                                "location": "hledat", "location_url": "/search" } } ]
 }
 ```
 
 - `exact` holds the user with exactly this nickname. `friends` and `others` hold users whose nickname starts with the query.
-- `exact` is case-sensitive. `nyxot` returns `NYXOT` only in `others` [T-search-02].
+- `exact` is case-sensitive. `testuser` returns `TESTUSER` only in `others` [T-search-02].
 - `activity` is present only for some users (`NYX` has none).
 
 | Input | Result | Test |
@@ -76,14 +76,14 @@ Fixture: [`tests/fixtures/search/username_200.json`](../tests/fixtures/search/us
 
 ```bash
 curl -s -H "Authorization: Bearer $NYX_API_TOKEN" \
-  "https://nyx.cz/api/search-v2?text=test&order=older_than&from_id=59138633"
+  "https://nyx.cz/api/search-v2?text=test&order=older_than&from_id=50000006"
 ```
 
 **200** `{ "context": {…}, "posts": [ … ] }` [T-search-22]. Post fields are described in [Models](12_models.md).
 
 - Both endpoints returned identical results for all 10 shared queries [T-search-12…31].
 - One page has **20** posts, ordered newest first.
-- `user` is case-insensitive (`nyxot` works) and needs the full nickname. `user=NY` returns no posts [T-search-20, -21].
+- `user` is case-insensitive (`testuser` works) and needs the full nickname. `user=NY` returns no posts [T-search-20, -21].
 - Without `user` and `text` the result is an empty list, not an error [T-search-15, -25].
 
 ### Paging (`/search-v2`)
@@ -117,8 +117,8 @@ The form of `search` decides what is searched and which single key the response 
 | `search` | Response | Test |
 |---|---|---|
 | `testing` | `{"discussion": {"discussions": […], "events": […], "advertisements": […]}}` | T-search-56 |
-| `@NYXOT` | `{"user": {"exact": […], "friends": […], "others": […]}}` (same rows as `/search/username`) | T-search-58 |
-| `@NYXOT test` | `{"discussion_post": [ {discussion_id, post_id, discussion_name, discussion_name_highlighted, content} ]}` | T-search-67 |
+| `@TESTUSER` | `{"user": {"exact": […], "friends": […], "others": […]}}` (same rows as `/search/username`) | T-search-58 |
+| `@TESTUSER test` | `{"discussion_post": [ {discussion_id, post_id, discussion_name, discussion_name_highlighted, content} ]}` | T-search-67 |
 
 ```bash
 curl -s -H "Authorization: Bearer $NYX_API_TOKEN" "https://nyx.cz/api/search/unified?search=testing&limit=5"
@@ -132,8 +132,8 @@ Discussion rows have `id, discussion_type, discussion_name, discussion_name_high
 | `limit=20` | 19 discussions | T-search-61 |
 | `limit=0`, `-1` | empty lists | T-search-62, -63 |
 | `limit=abc` | default 5 | T-search-64 |
-| `@NYXOT test` (default `limit`) | 10 posts, so the default of 5 does not apply | T-search-67 |
-| `288360` (discussion ID) | no results; IDs are not searched | T-search-57 |
+| `@TESTUSER test` (default `limit`) | 10 posts, so the default of 5 does not apply | T-search-67 |
+| `100001` (discussion ID) | no results; IDs are not searched | T-search-57 |
 | `@NY` | **400** `{"error": true, "message": "Chybné hledání."}` | T-search-66 |
 | `search` missing | **404** `{"error": true, "message": "Not Found"}` | T-search-65 |
 

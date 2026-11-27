@@ -34,8 +34,8 @@ curl -s -H "Authorization: Bearer $NYX_API_TOKEN" "https://nyx.cz/api/bookmarks?
   "context": { … },
   "bookmarks": [
     { "category": { "id": -2, "category_name": "vlastní diskuze" },
-      "bookmarks": [ { "discussion_id": 288360, "full_name": "NYXOT ~ testing NYX API", "is_owner": true,
-                       "last_visited_at": "2026-11-25T16:21:17", "last_seen_post_id": 59141296 } ] },
+      "bookmarks": [ { "discussion_id": 100001, "full_name": "Test discussion", "is_owner": true,
+                       "last_visited_at": "2026-11-25T16:21:17", "last_seen_post_id": 50000019 } ] },
     { "category": { "id": -1, "category_name": "nezařazené diskuze" }, "bookmarks": [] }
   ],
   "reminder_count": 0
@@ -76,8 +76,8 @@ curl -s -H "Authorization: Bearer $NYX_API_TOKEN" \
 {
   "context": { … },
   "discussions": [
-    { "discussion_id": 288360, "full_name": "NYXOT ~ testing NYX API", "is_owner": true,
-      "last_visited_at": "2026-11-25T16:21:17", "last_seen_post_id": 59141296 }
+    { "discussion_id": 100001, "full_name": "Test discussion", "is_owner": true,
+      "last_visited_at": "2026-11-25T16:21:17", "last_seen_post_id": 50000019 }
   ],
   "show_load_more": false
 }
@@ -104,11 +104,11 @@ Fixtures: [`history_200.json`](../tests/fixtures/bookmarks/history_200.json), [`
 
 ## POST /api/bookmarks/history/mark_as_read and remove_from_history
 
-Form field `discussion_ids` (list of discussion IDs). Both `discussion_ids[]=288360` and `discussion_ids=288360` work [B-41, -43, -45, -52].
+Form field `discussion_ids` (list of discussion IDs). Both `discussion_ids[]=100001` and `discussion_ids=100001` work [B-41, -43, -45, -52].
 
 ```bash
 curl -s -H "Authorization: Bearer $NYX_API_TOKEN" \
-  -d "discussion_ids[]=288360" https://nyx.cz/api/bookmarks/history/remove_from_history
+  -d "discussion_ids[]=100001" https://nyx.cz/api/bookmarks/history/remove_from_history
 ```
 
 Both return **200** `{}`.
