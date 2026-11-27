@@ -2,9 +2,9 @@
  "user": {
   "exact": [
    {
-    "username": "NYXOT",
+    "username": "TESTUSER",
     "activity": {
-     "username": "NYXOT",
+     "username": "TESTUSER",
      "last_activity": "2026-11-25T15:38:17",
      "last_access_method": "Api",
      "status": "Active",

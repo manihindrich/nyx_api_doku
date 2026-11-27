@@ -1,7 +1,7 @@
 """Live tests for segment `bookmarks` (Swagger 0.0.1).
 
 Reads: /bookmarks, /bookmarks/all, /bookmarks/history, /bookmarks/history/more.
-Writes: only the history / read state of discussion 288360 (guard-enforced in nyx.py).
+Writes: only the history / read state of the test discussion (guard-enforced in nyx.py).
 Guard cases (discussion_ids missing or empty) are recorded as not testable and never sent.
 """
 import sys
@@ -11,9 +11,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from http.client import IncompleteRead  # noqa: E402
 from nyx import Client, Forbidden, Result, save_fixture  # noqa: E402
+from nyx import TEST_DISC  # noqa: E402
 
 SEG = "bookmarks"
-DISC = 288360            # "NYXOT ~ testing NYX API" (owner NYXOT): the only discussion written to
+DISC = TEST_DISC            # "test discussion" (owner the test user): the only discussion written to
 BM, ALL = "/bookmarks", "/bookmarks/all"
 HIST, MORE = "/bookmarks/history", "/bookmarks/history/more"
 REMOVE = "/bookmarks/history/remove_from_history"
@@ -83,7 +84,7 @@ ERRS = {}                # (status, message) -> first error body of that kind
 HSTORE = {}              # (path, params key) -> set of discussion ids returned
 BASE = None              # body of GET /bookmarks (no params)
 BASE_EXP = []            # category ids expanded in BASE
-REMOVED = [False]        # True while 288360 may be out of history (restore required)
+REMOVED = [False]        # True while the test discussion may be out of history (restore required)
 
 
 # ---------------------------------------------------------------- shape helpers
@@ -442,15 +443,15 @@ def guards():
 
 def write_phase():
     s0 = snap("W0 history pre-state", expect=True)
-    req("W1 mark_as_read discussion_ids[]=288360 (bracket form)", "POST", MARK, MARK_CLAIM,
+    req(f"W1 mark_as_read discussion_ids[]={TEST_DISC} (bracket form)", "POST", MARK, MARK_CLAIM,
         j_write("bracket"), data={"discussion_ids": [DISC]}, fix="write_mark_200")
     s1 = snap("W2 history after W1 (unread changed?)", expect=True, before=s0, state_check=True)
-    req("W3 mark_as_read discussion_ids=288360 (plain form)", "POST", MARK, MARK_CLAIM,
+    req(f"W3 mark_as_read discussion_ids={TEST_DISC} (plain form)", "POST", MARK, MARK_CLAIM,
         j_write("plain"), data={"discussion_ids": DISC})
     snap("W4 history after W3 (unread changed?)", expect=True, before=s1, state_check=True)
 
     REMOVED[0] = True
-    req("W5 remove_from_history discussion_ids[]=288360 (bracket form)", "POST", REMOVE, REMOVE_CLAIM,
+    req(f"W5 remove_from_history discussion_ids[]={TEST_DISC} (bracket form)", "POST", REMOVE, REMOVE_CLAIM,
         j_write("bracket"), data={"discussion_ids": [DISC]}, fix="write_remove_200")
     snap("W6 history after W5 (gone?)", expect=False, strict=True)
     req("W7 GET /bookmarks/all (still bookmarked?)", "GET", ALL, ALL_CLAIM, j_has_bm)
@@ -460,12 +461,12 @@ def write_phase():
 
     if restore("R1"):
         REMOVED[0] = True
-        req("W10 remove_from_history discussion_ids=288360 (plain form)", "POST", REMOVE, REMOVE_CLAIM,
+        req(f"W10 remove_from_history discussion_ids={TEST_DISC} (plain form)", "POST", REMOVE, REMOVE_CLAIM,
             j_write("plain"), data={"discussion_ids": DISC})
         snap("W11 history after W10 (gone?)", expect=False, strict=True)
         restore("R2")
     else:
-        emit("W10", "-", "INFO", "plain remove skipped: 288360 not back in history after restore (not testable)")
+        emit("W10", "-", "INFO", f"plain remove skipped: {TEST_DISC} not back in history after restore (not testable)")
 
 
 try:
@@ -474,11 +475,11 @@ try:
     write_phase()
 finally:
     if REMOVED[0]:
-        print("FINALLY: 288360 may be out of history, restoring")
+        print(f"FINALLY: {TEST_DISC} may be out of history, restoring")
         restore("RF")
     final = snap("F1 final history (show_read+show_booked)", expect=True)
     req("F2 final GET /bookmarks/all", "GET", ALL, ALL_CLAIM, j_has_bm)
-    print("FINAL STATE: 288360 in history =", final is not None, "| unread =",
+    print(f"FINAL STATE: {TEST_DISC} in history =", final is not None, "| unread =",
           unread(final) if final else None)
 
 print("counts:", dict(Counter(v for _, _, v, _ in rows)))

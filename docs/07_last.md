@@ -55,11 +55,11 @@ Invalid values never cause an error. No case returned 400.
 {
   "context": { "user": { … }, "active_friends": [] },
   "posts": [
-    { "id": 59141216, "discussion_id": 276016, "discussion_name": "Estetická medicína",
+    { "id": 50000015, "discussion_id": 100008, "discussion_name": "Example discussion G",
       "username": "USER1", "inserted_at": "2026-11-25T15:32:03", "content": "<redacted>",
       "rating": 1, "can_be_rated": true, "can_be_reminded": true }
   ],
-  "ignored_domains": [ { "user_id": 94404, "domain_id": 1, "name": "SYSTEMOVE KLUBY", "ignored": false } ],
+  "ignored_domains": [ { "user_id": 10001, "domain_id": 1, "name": "SYSTEMOVE KLUBY", "ignored": false } ],
   "ignored_discussions": []
 }
 ```

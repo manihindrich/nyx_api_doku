@@ -1,9 +1,9 @@
 {
  "context": {
   "user": {
-   "username": "NYXOT",
+   "username": "TESTUSER",
    "mail_unread": 0,
-   "mail_last_from": "RSS",
+   "mail_last_from": "OTHERUSER",
    "notifications_unread": 0,
    "notifications_last_visit": "2025-07-29T12:47:28"
   },
@@ -11,10 +11,10 @@
  },
  "discussion_common": {
   "discussion": {
-   "id": 18379,
+   "id": 100002,
    "domain_id": 1,
    "domain_category_id": 0,
-   "name_static": "nyx :: API",
+   "name_static": "Public discussion",
    "name_dynamic": null,
    "has_header": true,
    "has_home": false,
@@ -29,7 +29,7 @@
    "hashtags": [
     "test"
    ],
-   "summary": "Bavíme se o API sociální sítě nyx.cz: jeho vývoji, dokumentaci ve Swaggeru, autentizaci přes tokeny a přechodu ze starého api.php na nové REST endpointy. Sdílíme tipy pro tvorbu mobilních klientů (And…"
+   "summary": "<redacted>"
   },
   "owner": {
    "user": {
@@ -39,15 +39,15 @@
   "discussion_specific_data": {
    "header": [
     {
-     "id": 45141,
-     "discussion_id": 18379,
+     "id": 60001,
+     "discussion_id": 100002,
      "location": "header",
      "sort_order": 0,
-     "content": "Nove API:<br><a href=\"/files/000/024/2469449_54b41c66c40a3ce271de/original.bin?name=curl-auth.txt\" rel=\"noopener noreferrer\">Postup ziskani tokenu</a><br><br>Postupně vznikající popis API ve Swaggeru …",
+     "content": "<redacted>",
      "content_raw": {
       "type": "text",
       "data": {
-       "data": "Nove API:\r\n<a href=\"/files/000/024/2469449_54b41c66c40a3ce271de/original.bin?name=curl-auth.txt\">Postup ziskani tokenu</a>\r\n\r\nPostupně vznikající popis API ve Swaggeru (už by tam měl být nějaký základ…",
+       "data": "<redacted>",
        "format": "html"
       }
      },
@@ -61,13 +61,13 @@
  },
  "posts": [
   {
-   "id": 59140734,
-   "discussion_id": 18379,
-   "username": "BOD",
-   "content": "<a class=r data-id=59140725 data-discussion-id=18379 href='/discussion/18379/id/59140725'>NYX</a>: je na to auditko pro moderatory, kohokoliv rozumneho pridam. kdyby s tim byli problemy a nestacil bla…",
+   "id": 50000008,
+   "discussion_id": 100002,
+   "username": "PEERUSER",
+   "content": "<redacted>",
    "inserted_at": "2026-11-25T12:37:53",
    "activity": {
-    "username": "BOD",
+    "username": "PEERUSER",
     "last_activity": "2026-11-25T15:46:54",
     "last_access_method": "Web",
     "status": "Active",
@@ -79,12 +79,12 @@
    "can_be_reminded": true
   },
   {
-   "id": 59140725,
-   "discussion_id": 18379,
+   "id": 50000007,
+   "discussion_id": 100002,
    "username": "USER1",
    "content": "<redacted>",
    "replies": [
-    59140734
+    50000008
    ],
    "inserted_at": "2026-11-25T12:35:51",
    "activity": {

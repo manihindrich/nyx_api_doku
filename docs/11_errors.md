@@ -14,7 +14,7 @@ Almost all errors look like this:
 - There is **no `code` field**, except in one 403 [T-file-19].
 
 > [!WARNING]
-> **Swagger says** errors are `JsonError` with `error`, `code` and `message`, returned as **400**. In reality `code` is missing, and errors use 400, 401, 403, 404 and 422.
+> **Swagger says** errors are `JsonError` with `error`, `message` and an optional `code`, returned as **400** (plus one **403** with `code: NeedsConfirmation` for rating). In reality `code` is usually missing (it appears only on 403 and in the second 401 shape), and errors use 400, 401, 403, 404 and 422.
 
 ## Status codes
 

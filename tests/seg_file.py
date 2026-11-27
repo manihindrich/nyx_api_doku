@@ -1,5 +1,5 @@
 """Live tests for segment `file` (Swagger 0.0.1). Uploads/embeds/deletes touch only files registered by this run.
-Discussion uploads and the one post go to discussion 288360 only (guard-enforced). Mail is never sent."""
+Discussion uploads and the one post go to the test discussion only (guard-enforced). Mail is never sent."""
 import os
 import re
 import struct
@@ -12,9 +12,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from http.client import IncompleteRead  # noqa: E402
 from nyx import Client, Forbidden, Result, nonce, save_fixture  # noqa: E402
+from nyx import TEST_DISC  # noqa: E402
 
 SEG = "file"
-DISC = 288360            # "NYXOT ~ testing NYX API": the only discussion written to
+DISC = TEST_DISC            # "test discussion": the only discussion written to
 DP = f"/discussion/{DISC}"
 UP = "/file/upload"
 c = Client(SEG)
@@ -205,23 +206,23 @@ def upload(label, data, files, expect, auth=True):
 PNG = png()
 A_ids = {}
 try:
-    A_ids["png_disc"], _ = upload("A1 PNG discussion_attachment/288360",
+    A_ids["png_disc"], _ = upload(f"A1 PNG discussion_attachment/{TEST_DISC}",
                                   {"file_type": "discussion_attachment", "id_specific": DISC},
                                   fpart("png", PNG, "image/png"), "200")
     A_ids["png_mail"], _ = upload("A2 PNG mail_attachment/0",
                                   {"file_type": "mail_attachment", "id_specific": 0},
                                   fpart("png", PNG, "image/png"), "200")
-    # Other file_types: 0 as N/A. 288360 only for discussion types (market/event 288360 would be foreign objects).
+    # Other file_types: 0 as N/A. the test discussion only for discussion types (market/event the test discussion would be foreign objects).
     for ft in ("free_file", "mail_backup", "market_attachment", "event_attachment"):
         upload(f"A3 PNG {ft}/0", {"file_type": ft, "id_specific": 0}, fpart("png", PNG, "image/png"), "200")
-    upload("A3 PNG discussion_backup/288360", {"file_type": "discussion_backup", "id_specific": DISC},
+    upload(f"A3 PNG discussion_backup/{TEST_DISC}", {"file_type": "discussion_backup", "id_specific": DISC},
            fpart("png", PNG, "image/png"), "200")
-    A_ids["gif"], _ = upload("A4 GIF discussion_attachment/288360", {"file_type": "discussion_attachment",
+    A_ids["gif"], _ = upload(f"A4 GIF discussion_attachment/{TEST_DISC}", {"file_type": "discussion_attachment",
                                                                       "id_specific": DISC},
                              fpart("gif", GIF, "image/gif"), "200")
-    upload("A4 JPEG discussion_attachment/288360", {"file_type": "discussion_attachment", "id_specific": DISC},
+    upload(f"A4 JPEG discussion_attachment/{TEST_DISC}", {"file_type": "discussion_attachment", "id_specific": DISC},
            fpart("jpg", JPEG, "image/jpeg"), "200")
-    upload("A4 text/html discussion_attachment/288360", {"file_type": "discussion_attachment", "id_specific": DISC},
+    upload(f"A4 text/html discussion_attachment/{TEST_DISC}", {"file_type": "discussion_attachment", "id_specific": DISC},
            fpart("html", f"<p>{nonce()}</p>".encode(), "text/html"), "200")
     upload("A4 random bytes, mime application/octet-stream (not in FileMimeTypeEnum)",
            {"file_type": "discussion_attachment", "id_specific": DISC},

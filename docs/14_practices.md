@@ -1,6 +1,6 @@
 # Good practice
 
-Recommendations from running an RSS bot on the API (2026-11) and from the tests in this repository. Every rule links to the test that backs it.
+Recommendations from running a bot on the API (2026-11) and from the tests in this repository. Every rule links to the test that backs it.
 
 ## Requests
 

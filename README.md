@@ -5,15 +5,45 @@
 <h1 align="center">NYX.CZ API — verified documentation</h1>
 
 <p align="center">
-  Unofficial documentation of the <a href="https://nyx.cz">nyx.cz</a> REST API.<br>
-  Every statement is checked against the live API, not copied from the spec.
+  A practical, test-backed guide to the <a href="https://nyx.cz">nyx.cz</a> REST API<br>
+  for anyone building a bot, a client or an integration.
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#documentation">Chapters</a> ·
+  <a href="#five-things-to-know-first">Five things to know</a> ·
+  <a href="#tests">Tests</a>
 </p>
 
 ---
 
-## Why
+## What is nyx
 
-The official [Swagger 0.0.1](https://app.swaggerhub.com/apis/nyx.cz/nyx.cz/0.0.1) is incomplete and wrong in many places. This repository describes what the API **actually does**. Each claim links to a live test (`[T-mail-22]`), and every place where reality differs from Swagger is marked **Swagger says** and summarised in [Swagger vs. reality](docs/15_swagger-diff.md). Anything that could not be tested is marked **Not verified**.
+[nyx.cz](https://nyx.cz) is a long-running Czech online community. At its heart are **discussion clubs** on every topic imaginable, and around them sit private **mail**, **bookmarks** and reading history, **notifications** about replies and ratings, a personal **notepad**, file sharing, events and more.
+
+Besides the web interface, nyx offers a **REST API**: with a personal token you can read discussions, post, send mail, rate posts, manage access rights, upload files and search. That is what bots, alternative and mobile clients, feed readers and other integrations are built on.
+
+## What this repository is for
+
+Building on an API is easier when you know exactly how it behaves: which fields come back, what an error looks like, what happens at the edges. This repository answers those questions for every one of the 33 API operations, in plain chapters with copy-paste examples.
+
+It is written for developers who want to:
+
+- **write a bot or a client** without trial and error,
+- **look up** a request, a response shape or an error message quickly,
+- **re-check** any statement themselves: each one links to a live test that can be run again.
+
+> [!NOTE]
+> This is an independent community project, not official nyx.cz documentation. User names and IDs in the examples are placeholders.
+
+## What you get
+
+- **Verified behaviour.** Every statement was checked against the live API and links to the test that backs it (`[T-mail-22]`). Anything that could not be tested is marked **Not verified**.
+- **Real examples.** Requests and responses as the API returns them today.
+- **Exact errors.** Status codes and every error message seen, with their causes.
+- **Edge cases.** Paging, booleans, duplicates, HTML handling, file uploads, access rights.
+- **Practical advice** from running a bot on the API.
 
 Tested 2026-11-25 to 2026-11-27: 414 recorded live requests covering all 33 operations.
 
@@ -47,11 +77,11 @@ Base URL: `https://nyx.cz/api`. Responses are JSON.
 | [Models](docs/12_models.md) | shared objects and field rules |
 | [HTML](docs/13_html.md) | which HTML is kept, changed or removed |
 | [Good practice](docs/14_practices.md) | lessons from running a bot on the API |
-| [Swagger vs. reality](docs/15_swagger-diff.md) | all differences in one place |
+| [Notes on the spec](docs/15_swagger-diff.md) | where the observed behaviour differs from the published spec |
 
 ## Five things to know first
 
-1. **Missing means false.** Boolean flags and counters are left out when unset ([Models](docs/12_models.md#general-rules)).
+1. **Missing means false in posts.** In post objects, boolean flags and counters are left out when unset; elsewhere `false` and `0` do appear ([Models](docs/12_models.md#general-rules)).
 2. **Writes return `{}`.** Find the new post or message ID by reading it back ([Good practice](docs/14_practices.md#writing-posts-and-mail)).
 3. **Duplicates are rejected.** A text identical to your previous post or message fails with 400.
 4. **Errors are loose.** Many invalid values are ignored with 200; others return 422, not 400 ([Errors](docs/11_errors.md)).
@@ -61,20 +91,19 @@ Base URL: `https://nyx.cz/api`. Responses are JSON.
 
 The tests are the evidence for the documentation. They run against the live API with a real account and **write** to it, so they are guarded: writes are allowed only to one test discussion, one mail recipient and objects the run created itself (see `ALLOWLIST` in [`tests/nyx.py`](tests/nyx.py)).
 
+Copy [`.env.example`](.env.example) to `.env` (git-ignored) and fill in your token and your own test accounts and discussion. Then:
+
 ```bash
-# token from the environment or from a .env file (never commit it)
-NYX_ENV_FILE=/path/to/.env python3 -I tests/seg_search.py
+python3 -I tests/seg_search.py
 ```
 
 | Path | Content |
 |---|---|
 | `tests/nyx.py` | client: auth, pacing (1 request/s), retry, write allowlist, recording |
 | `tests/seg_*.py` | one script per chapter; prints `T-id \| status \| verdict` |
-| `tests/fixtures/` | shortened sample responses, other users anonymised |
+| `tests/fixtures/` | shortened sample responses; users, IDs and discussion names replaced by placeholders |
 | `tests/results/` | full recorded responses (local only, git-ignored) |
 | `tests/models_check.py` | compares response fields with the Swagger schemas |
-
-Before running write tests, change the allowlist to your own test discussion and recipient.
 
 ---
 

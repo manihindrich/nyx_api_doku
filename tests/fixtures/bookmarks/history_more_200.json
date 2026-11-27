@@ -1,9 +1,9 @@
 {
  "context": {
   "user": {
-   "username": "NYXOT",
+   "username": "TESTUSER",
    "mail_unread": 0,
-   "mail_last_from": "RSS",
+   "mail_last_from": "OTHERUSER",
    "notifications_unread": 0,
    "notifications_last_visit": "2025-07-29T12:47:28"
   },
@@ -11,17 +11,17 @@
  },
  "discussions": [
   {
-   "discussion_id": 288360,
+   "discussion_id": 100001,
    "is_owner": true,
-   "full_name": "NYXOT ~ testing NYX API",
+   "full_name": "Test discussion",
    "last_visited_at": "2026-11-25T16:21:17",
-   "last_seen_post_id": 59141296
+   "last_seen_post_id": 50000019
   },
   {
-   "discussion_id": 18379,
-   "full_name": "nyx :: API",
+   "discussion_id": 100002,
+   "full_name": "Public discussion",
    "last_visited_at": "2026-11-25T15:58:57",
-   "last_seen_post_id": 59140734
+   "last_seen_post_id": 50000008
   }
  ],
  "show_load_more": false

@@ -25,31 +25,56 @@ RESULTS = ROOT / "results"
 FIXTURES = ROOT / "fixtures"
 PAUSE_S = 1.0
 
-# --- safety allowlist -------------------------------------------------------
-ALLOWLIST = {
-    "discussion_ids": {288360},          # NYXOT ~ testing NYX API (owner NYXOT)
-    "mail_recipients": {"BOD"},
-    "rights_usernames": {"BOD"},
-    "foreign_post_ids": {59141147},       # BOD's post in 288360
-    "notification_token_prefix": "nyxapidoku-test-",
-}
-KNOWN_USERS = {"NYXOT", "BOD"}            # not anonymised in fixtures
-
 
 class Forbidden(Exception):
     pass
 
 
-def _load_token() -> str:
-    tok = os.environ.get("NYX_API_TOKEN")
-    if tok:
-        return tok
-    for p in filter(None, [os.environ.get("NYX_ENV_FILE"), str(Path.cwd() / ".env")]):
+def _env(name: str) -> str | None:
+    """Lookup order: environment, file from env NYX_ENV_FILE, ./.env, <repo>/.env."""
+    if os.environ.get(name):
+        return os.environ[name]
+    for p in filter(None, [os.environ.get("NYX_ENV_FILE"), str(Path.cwd() / ".env"), str(ROOT.parent / ".env")]):
         if Path(p).is_file():
             for line in Path(p).read_text().splitlines():
-                if line.startswith("NYX_API_TOKEN="):
+                if line.startswith(name + "="):
                     return line.split("=", 1)[1].strip().strip('"').strip("'")
-    sys.exit("NYX_API_TOKEN not found (set NYX_API_TOKEN or NYX_ENV_FILE)")
+    return None
+
+
+def _load_token() -> str:
+    tok = _env("NYX_API_TOKEN")
+    if not tok:
+        sys.exit("NYX_API_TOKEN not found (set NYX_API_TOKEN or NYX_ENV_FILE)")
+    return tok
+
+
+def _need(name: str) -> str:
+    v = _env(name)
+    if not v:
+        sys.exit(f"{name} not set: copy .env.example to .env and fill in your own test account values")
+    return v
+
+
+# --- test account configuration (real values live only in the git-ignored .env) ---
+TEST_USER = _need("NYX_TEST_USER")                    # account that owns the token
+PEER_USER = _need("NYX_PEER_USER")                    # second account: mail recipient, rights target
+OTHER_USER = _need("NYX_OTHER_USER")                  # any third user: guard tests only (never written)
+TEST_DISC = int(_need("NYX_TEST_DISCUSSION"))         # discussion owned by TEST_USER: the only write target
+PUBLIC_DISC = int(_need("NYX_PUBLIC_DISCUSSION"))     # someone else's public discussion: read only
+PEER_POST = int(_need("NYX_PEER_POST"))               # PEER_USER's post in TEST_DISC (rating tests)
+HEADER_ITEM = int(_need("NYX_HEADER_ITEM"))           # header section of TEST_DISC (saved, then restored)
+
+# --- safety allowlist -------------------------------------------------------
+ALLOWLIST = {
+    "discussion_ids": {TEST_DISC},
+    "mail_recipients": {PEER_USER},
+    "rights_usernames": {PEER_USER},
+    "foreign_post_ids": {PEER_POST},
+    "notification_token_prefix": "nyxapidoku-test-",
+}
+KNOWN_USERS = {TEST_USER: "TESTUSER", PEER_USER: "PEERUSER", OTHER_USER: "OTHERUSER"}  # fixture pseudonyms
+KNOWN_IDS = {TEST_DISC: 100001, PUBLIC_DISC: 100002, PEER_POST: 50000013, HEADER_ITEM: 60004}  # fixture pseudonyms
 
 
 def nonce() -> str:
@@ -193,7 +218,8 @@ def _multipart(fields: dict, files: dict):
 
 # --- fixtures ---------------------------------------------------------------
 def shrink(obj, max_items: int = 2, max_str: int = 200, _names=None):
-    """Truncate lists/strings and anonymise unknown usernames for committed fixtures."""
+    """Truncate lists/strings and pseudonymise users and configured IDs for committed fixtures.
+    Other IDs (posts, files, other discussions) are kept: review fixtures before committing."""
     names = _names if _names is not None else {}
     if isinstance(obj, list):
         return [shrink(x, max_items, max_str, names) for x in obj[:max_items]]
@@ -204,13 +230,20 @@ def shrink(obj, max_items: int = 2, max_str: int = 200, _names=None):
             if foreign and k in ("content", "content_raw", "title", "highlight") and v:
                 out[k] = "<redacted>"
                 continue
-            if k in ("username", "nick", "user", "owner_username", "recipient", "sender") \
-                    and isinstance(v, str) and v not in KNOWN_USERS:
-                v = names.setdefault(v, f"USER{len(names) + 1}")
+            if k in ("username", "nick", "user", "owner_username", "recipient", "sender", "mail_last_from") \
+                    and isinstance(v, str):
+                v = KNOWN_USERS.get(v) or names.setdefault(v, f"USER{len(names) + 1}")
             out[k] = shrink(v, max_items, max_str, names)
         return out
-    if isinstance(obj, str) and len(obj) > max_str:
-        return obj[:max_str] + "…"
+    if isinstance(obj, int) and not isinstance(obj, bool):
+        return KNOWN_IDS.get(obj, obj)
+    if isinstance(obj, str):
+        for real, fake in KNOWN_USERS.items():
+            obj = re.sub(rf"\b{re.escape(real)}\b", fake, obj)
+        for real, fake in KNOWN_IDS.items():
+            obj = re.sub(rf"\b{real}\b", str(fake), obj)
+        if len(obj) > max_str:
+            return obj[:max_str] + "…"
     return obj
 
 

@@ -8,6 +8,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from http.client import IncompleteRead  # noqa: E402
 from nyx import Client, Result, save_fixture, shape  # noqa: E402
+from nyx import TEST_USER, TEST_DISC  # noqa: E402
 
 SEG = "search"
 c = Client(SEG)
@@ -209,7 +210,7 @@ def eval_un(u, what, r):
     return "DIFF", f"status {r.status} (Swagger documents only 200/400)"
 
 
-UN_CASES = [("NYXOT", "exact"), ("nyxot", "lowercase"), ("NYX", "prefix"), ("NY", "2 chars"),
+UN_CASES = [(TEST_USER, "exact"), (TEST_USER.lower(), "lowercase"), (TEST_USER[:3], "prefix"), (TEST_USER[:2], "2 chars"),
             ("N", "1 char"), ("A" * 15, "15 chars"), ("A" * 16, "16 chars"), ("XQZJWQ_NOPE", "no match"),
             ("a-b", "hyphen"), ("ž", "non-ascii"), ("", "empty")]
 UN_CLAIM = ("GET /search/username/{username} 200 UsernameSearchResult {exact,friends,others}; "
@@ -219,7 +220,7 @@ for u, what in UN_CASES:
     t = tid()
     r = C("GET", f"/search/username/{urllib.parse.quote(u, safe='')}", test_id=t,
                claim=f"{UN_CLAIM}; case {what}")
-    if u == "NYXOT":
+    if u == TEST_USER:
         un_fixture = r
     v, note = eval_un(u, what, r)
     emit(t, r.status, v, f"{what}: {note}", r)
@@ -233,15 +234,15 @@ SEARCH_CLAIM = {
 }
 CASES = [  # (label, params, expected author, words that must occur in content)
     ("text=test", {"text": "test"}, None, ["test"]),
-    ("user=NYXOT", {"user": "NYXOT"}, "NYXOT", []),
-    ("user+text", {"user": "NYXOT", "text": "test"}, "NYXOT", ["test"]),
+    (f"user={TEST_USER}", {"user": TEST_USER}, TEST_USER, []),
+    ("user+text", {"user": TEST_USER, "text": "test"}, TEST_USER, ["test"]),
     ("none", {}, None, []),
     ("=test", {"text": "=test"}, None, ["test"]),
     ("phrase", {"text": '"testing NYX"'}, None, ["testing nyx"]),
-    ("@NYXOT", {"text": "@NYXOT"}, "NYXOT", []),
-    ("combo", {"text": "@NYXOT test"}, "NYXOT", ["test"]),
-    ("user=nyxot", {"user": "nyxot"}, "NYXOT", []),
-    ("user=NY", {"user": "NY"}, "NY", []),
+    (f"@{TEST_USER}", {"text": f"@{TEST_USER}"}, TEST_USER, []),
+    ("combo", {"text": f"@{TEST_USER} test"}, TEST_USER, ["test"]),
+    (f"user={TEST_USER.lower()}", {"user": TEST_USER.lower()}, TEST_USER, []),
+    ("user=NY", {"user": TEST_USER[:2]}, TEST_USER[:2], []),
 ]
 
 
@@ -374,11 +375,11 @@ order_call({"order": "NEWEST"}, ORD_CLAIM + "; order case",
 UNI_CLAIM = ("GET /search/unified 200 oneOf UsernameSearchResult|UnifiedSearchDiscussionResult|"
              "UnifiedSearchDiscussionPostResult; search SearchExpression required; limit integer default 5")
 UNI_CASES = [  # (label, search or None, limit param or None, effective limit)
-    ("NYXOT", "NYXOT", None, 5), ("testing", "testing", None, 5), ("288360", "288360", None, 5),
-    ("@NYXOT", "@NYXOT", None, 5), ("limit=1", "testing", 1, 1), ("limit=5", "testing", 5, 5),
+    (TEST_USER, TEST_USER, None, 5), ("testing", "testing", None, 5), (f"{TEST_DISC}", f"{TEST_DISC}", None, 5),
+    (f"@{TEST_USER}", f"@{TEST_USER}", None, 5), ("limit=1", "testing", 1, 1), ("limit=5", "testing", 5, 5),
     ("limit=20", "testing", 20, 20), ("limit=0", "testing", 0, 0), ("limit=-1", "testing", -1, -1),
     ("limit=abc", "testing", "abc", None), ("missing search", None, 5, None),
-    ("@NY (swagger example)", "@NY", None, 5), ("@NYXOT test (swagger example)", "@NYXOT test", None, 5)]
+    ("@NY (swagger example)", "@NY", None, 5), (f"@{TEST_USER} test (swagger example)", f"@{TEST_USER} test", None, 5)]
 uni_fixtures = {}
 for label, search, limit, eff in UNI_CASES:
     params = {}

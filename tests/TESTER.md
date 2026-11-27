@@ -3,9 +3,9 @@
 You test one segment of the nyx.cz API live and record results. You do **not** write documentation.
 
 ## Setup
-- Repo: `/data/git/nyx_api_doku`, branch `rewrite`. Write only `tests/seg_<segment>.py` and `tests/fixtures/<segment>/`.
+- Repo: this repository. Write only `tests/seg_<segment>.py` and `tests/fixtures/<segment>/`.
 - Harness: `tests/nyx.py` (read it first). Use `Client("<segment>")`, `c.call(method, path, params=, data=, files=, auth=, test_id=, claim=)`, `save_fixture()`, `shape()`, `nonce()`.
-- Run: `cd /data/git/nyx_api_doku && NYX_ENV_FILE=/data/git/nyx_rss/.env python3 -I tests/seg_<segment>.py`
+- Run: `python3 -I tests/seg_<segment>.py` from the repo root (token and test account values in `.env`, see `.env.example`)
   (Bash tool: pass `allowed_domains: ["nyx.cz"]`). Never print, log or commit the token.
 - The guard in `nyx.py` blocks writes outside the allowlist. If it raises `Forbidden`, do **not** work around it; report it.
 

@@ -18,13 +18,13 @@ Verification: live tests in [`tests/seg_mail.py`](../tests/seg_mail.py), 2026-11
 
 | Parameter | Type | Effect |
 |---|---|---|
-| `user` | nickname | Only the conversation with this user. Case-insensitive (`bod` works) [T-mail-02, -03]. |
+| `user` | nickname | Only the conversation with this user. Case-insensitive (`peeruser` works) [T-mail-02, -03]. |
 | `text` | search expression | Only messages matching the text; matches are wrapped in `<em class='search-match'>` [T-mail-04]. See [Search](10_search.md#search-expressions). |
 | `order` | `newest`, `oldest`, `newer_than`, `older_than` | Paging, see below |
 | `from_id` | message ID | Used with `newer_than` / `older_than` |
 
 ```bash
-curl -s -H "Authorization: Bearer $NYX_API_TOKEN" "https://nyx.cz/api/mail?user=BOD"
+curl -s -H "Authorization: Bearer $NYX_API_TOKEN" "https://nyx.cz/api/mail?user=PEERUSER"
 ```
 
 Without `user` the response contains messages from **all** conversations [T-mail-01].
@@ -54,16 +54,16 @@ One page has **20** messages, newest first [T-mail-05].
 {
   "context": { … },
   "conversations": [
-    { "username": "RSS", "conversed_at": "2026-11-25T13:43:18",
-      "activity": { "username": "RSS", "last_activity": "2026-11-25T15:43:16", "last_access_method": "Api",
+    { "username": "OTHERUSER", "conversed_at": "2026-11-25T13:43:18",
+      "activity": { "username": "OTHERUSER", "last_activity": "2026-11-25T15:43:16", "last_access_method": "Api",
                     "status": "Active", "location": "pošta", "location_url": "/mail" } }
   ],
   "posts": [
-    { "id": 176692472, "username": "BOD", "inserted_at": "2026-11-25T15:44:18",
+    { "id": 70000005, "username": "PEERUSER", "inserted_at": "2026-11-25T15:44:18",
       "content": "text [nyxapidoku 2026-11-25 15:44:16 b1cf3b]<br>line2 &lt;b&gt;x&lt;/b&gt;",
-      "other_mail_id": 176692473, "reminder": true, "activity": { … } }
+      "other_mail_id": 70000006, "reminder": true, "activity": { … } }
   ],
-  "reminders": [ { "id": 176692472, … } ],
+  "reminders": [ { "id": 70000005, … } ],
   "waiting_files": []
 }
 ```
@@ -94,7 +94,7 @@ Form fields (`application/x-www-form-urlencoded`):
 
 ```bash
 curl -s -H "Authorization: Bearer $NYX_API_TOKEN" \
-  --data-urlencode "recipient=BOD" --data-urlencode "message=Hello" -d "format=text" \
+  --data-urlencode "recipient=PEERUSER" --data-urlencode "message=Hello" -d "format=text" \
   https://nyx.cz/api/mail/send
 ```
 
@@ -135,7 +135,7 @@ How `message` is stored [T-mail-31]:
 | `newState` | path | `true`, `false` |
 
 ```bash
-curl -s -X POST -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/mail/reminder/176692472/true
+curl -s -X POST -H "Authorization: Bearer $NYX_API_TOKEN" https://nyx.cz/api/mail/reminder/70000005/true
 ```
 
 **200** `{}`. `true` adds the message to `reminders`, `false` removes it [T-mail-32…35].

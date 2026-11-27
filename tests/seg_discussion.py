@@ -1,4 +1,4 @@
-"""Live tests for segment `discussion` (Swagger 0.0.1). Writes only in discussion 288360 (guard-enforced)."""
+"""Live tests for segment `discussion` (Swagger 0.0.1). Writes only in the test discussion (guard-enforced)."""
 import re
 import sys
 from collections import Counter
@@ -7,13 +7,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from http.client import IncompleteRead  # noqa: E402
 from nyx import Client, Forbidden, Result, nonce, save_fixture  # noqa: E402
+from nyx import TEST_USER, PEER_USER, TEST_DISC, PUBLIC_DISC, PEER_POST, HEADER_ITEM  # noqa: E402
 
 SEG = "discussion"
-DISC = 288360            # "NYXOT ~ testing NYX API": the only discussion written to
-FOREIGN = 18379          # someone else's public discussion: GET only
-BOD_POST = 59141147      # BOD's post in DISC: rating cases only, always reset to remove
-HEADER_ITEM = 68704      # nastenka item in DISC: saved, then restored
-HEADER_ORIG = "frekvence 14 dni\nposilat predtim do posty at stihne promazat blbosti"
+DISC = TEST_DISC            # "test discussion": the only discussion written to
+HEADER_ORIG = None         # original header text, read live before the save test
 DP = f"/discussion/{DISC}"
 RG = f"{DP}/rating"
 RM = f"{DP}/reminder"
@@ -357,9 +355,9 @@ def check_tags(r):
     if not isinstance(r.body, list):
         return "DIFF", f"not list ({type(r.body).__name__})"
     bad = [x for x in r.body if not (isinstance(x, dict) and not body_bad(x))]
-    mine = [x.get("tag") for x in r.body if isinstance(x, dict) and x.get("username") == "NYXOT"]
+    mine = [x.get("tag") for x in r.body if isinstance(x, dict) and x.get("username") == TEST_USER]
     keys = sorted({k for x in r.body if isinstance(x, dict) for k in x})
-    note = f"n={len(r.body)} NYXOT tags={mine} keys={keys}"
+    note = f"n={len(r.body)} {TEST_USER} tags={mine} keys={keys}"
     if bad:
         return "DIFF", f"bad items {bad[:2]}; {note}"
     return "OK", note
@@ -449,7 +447,7 @@ def call(label, method, path, check, claim, fix=None, **kw):
 
 
 def find_own(pid):
-    r = C("GET", DP, params={"user": "NYXOT", "order": "newest"})
+    r = C("GET", DP, params={"user": TEST_USER, "order": "newest"})
     return next((p for p in posts_of(r) if p.get("id") == pid), None)
 
 
@@ -466,11 +464,11 @@ words = [w for p in posts_of(base) for w in re.findall(r"[^\W\d_]{4,}", plain(p.
 word = words[0] if words else "test"
 P = sorted(base_ids)[len(base_ids) // 2] if len(base_ids) >= 2 else None
 
-r_nyxot = get_disc("A user=NYXOT", {"user": "NYXOT"}, check_user("NYXOT"), "user Username")
-r_bod = get_disc("A user=BOD", {"user": "BOD"}, check_user("BOD"), "user Username")
-get_disc("A user=bod", {"user": "bod"},
+r_me = get_disc(f"A user={TEST_USER}", {"user": TEST_USER}, check_user(TEST_USER), "user Username")
+r_peer = get_disc(f"A user={PEER_USER}", {"user": PEER_USER}, check_user(PEER_USER), "user Username")
+get_disc(f"A user={PEER_USER.lower()}", {"user": PEER_USER.lower()},
          lambda r: ("OK", f"400 for lowercase ({err_shape(r)})") if r.status == 400
-         else ("INFO", f"status {r.status}; ids identical to user=BOD: {ids_of(r) == ids_of(r_bod)}"),
+         else ("INFO", f"status {r.status}; ids identical to user={PEER_USER}: {ids_of(r) == ids_of(r_peer)}"),
          "Username pattern [A-Z0-9_]{3,15} (uppercase); lowercase case")
 get_disc(f"A text={word}", {"text": word}, check_word(word), "text SearchExpression")
 for v in (1, -1, 0):
@@ -494,8 +492,8 @@ get_disc("A order=older_than (no from_id)", {"order": "older_than"}, neg("from_i
 get_disc("A from_id=0", {"order": "newest", "from_id": 0}, neg("from_id>=1"), "from_id minimum 1")
 get_disc("A from_id=abc", {"order": "newest", "from_id": "abc"}, neg("from_id integer"), "from_id integer")
 get_disc("A order=foo", {"order": "foo"}, neg("order enum"), "order enum")
-get_disc("A foreign discussion 18379", None, check_200, "foreign public discussion (read only)",
-         disc=FOREIGN, fix="discussion_get_foreign_200")
+get_disc(f"A foreign discussion {PUBLIC_DISC}", None, check_200, "foreign public discussion (read only)",
+         disc=PUBLIC_DISC, fix="discussion_get_foreign_200")
 get_disc("A discussion 999999999", None, neg("discussion 999999999"), "non-existent discussion")
 get_disc("A discussion abc", None, neg("discussion id not integer"), "non-integer discussion id", disc="abc")
 get_disc("A no token", None, check_anon, "undocumented: no bearer token", auth=False)
@@ -510,13 +508,13 @@ def snapshot():
 
 
 def new_own(before, n):
-    """NYXOT posts that were not on the page before the send. Without nonce only empty posts newer than all seen."""
+    """Posts by the test user that were not on the page before the send. Without nonce only empty posts newer than all seen."""
     r = C("GET", DP, params={"order": "newest"})
     if r.status != 200:
         return None
     out = []
     for p in posts_of(r):
-        if p.get("username") != "NYXOT" or p.get("id") in before:
+        if p.get("username") != TEST_USER or p.get("id") in before:
             continue
         content = p.get("content") or ""
         if n is not None and n in content:
@@ -607,7 +605,7 @@ try:
     # -------------------------------------------------------- D. rating
     if own:
         call("D GET rating own", "GET", f"{RG}/{own}", check_tags, RATEGET_CLAIM, fix="rating_get_200")
-    call("D GET rating BOD post 59141147", "GET", f"{RG}/{BOD_POST}", check_tags, RATEGET_CLAIM)
+    call(f"D GET rating {PEER_USER} post {PEER_POST}", "GET", f"{RG}/{PEER_POST}", check_tags, RATEGET_CLAIM)
 
     def rate_cycle(label, pid):
         for action in ("positive", "negative", "negative_visible", "remove"):
@@ -622,7 +620,7 @@ try:
     if own:
         rate_cycle("own", own)
         call("D POST action=foo (own)", "POST", f"{RG}/{own}/foo", neg("action foo"), RATE_CLAIM)
-    rate_cycle("BOD 59141147", BOD_POST)
+    rate_cycle(f"{PEER_USER} {PEER_POST}", PEER_POST)
     call("D POST rating id 999999999 positive", "POST", f"{RG}/999999999/positive", neg("rating id 999999999"),
          RATE_CLAIM)
     call("D GET rating id 999999999", "GET", f"{RG}/999999999", neg("rating id 999999999 GET"), RATEGET_CLAIM)
@@ -687,21 +685,22 @@ try:
              params={"new_state": "true"})
         bm_verify("F restored: expect bookmark=true, category null", True, None)
 
-    # -------------------------------------------------------- G. header item 68704 (save + restore)
+    # -------------------------------------------------------- G. header item the header item (save + restore)
     item0 = hdr_item(base)
     if item0 is None:
         emit(tid(), "-", "INFO", f"G header item {HEADER_ITEM} not in discussion header: save skipped")
     else:
         orig = item0.get("content_raw")
+        HEADER_ORIG = ((orig or {}).get("data") or {}).get("data") or ""
         hn = nonce()
         try:
-            call("G save header 68704 (text + nonce)", "POST", f"{DP}/content/{HEADER_ITEM}/save",
+            call(f"G save header {HEADER_ITEM} (text + nonce)", "POST", f"{DP}/content/{HEADER_ITEM}/save",
                  check_empty, SAVE_CLAIM, data={"content": f"{HEADER_ORIG} {hn}", "format": "html"})
             call("G readback after save", "GET", DP,
                  check_hdr(lambda s: ("OK", "nonce present") if hn in s else ("DIFF", "nonce missing")),
                  GET_CLAIM)
         finally:
-            call("G RESTORE header 68704", "POST", f"{DP}/content/{HEADER_ITEM}/save", check_empty, SAVE_CLAIM,
+            call(f"G RESTORE header {HEADER_ITEM}", "POST", f"{DP}/content/{HEADER_ITEM}/save", check_empty, SAVE_CLAIM,
                  data={"content": HEADER_ORIG, "format": "html"})
             call("G readback after restore", "GET", DP,
                  check_hdr(lambda s: ("OK" if s == HEADER_ORIG else "DIFF",
@@ -714,7 +713,7 @@ try:
     if victim:
         call(f"H DELETE own post {victim}", "DELETE", f"{DP}/delete/{victim}", check_empty, DEL_CLAIM)
         r = call(f"H verify {victim} gone", "GET", DP, check_gone(victim), GET_CLAIM,
-                 params={"user": "NYXOT", "order": "newest"})
+                 params={"user": TEST_USER, "order": "newest"})
         if r.status == 200 and victim not in ids_of(r) and victim in ALIVE:
             ALIVE.remove(victim)
             DELETED.append(victim)
@@ -728,7 +727,7 @@ try:
         emit(t, "-", "INFO", f"H delete 999999999: not testable, guard Forbidden ({e})")
 
 finally:
-    # cleanup: only posts registered in this run; never BOD's post
+    # cleanup: only posts registered in this run; never the peer user's post
     for pid in sorted(DIRTY):
         call(f"CLEANUP remove rating {pid}", "POST", f"{RG}/{pid}/remove", check_rate("remove"), RATE_CLAIM)
     for pid in list(ALIVE):
@@ -739,7 +738,7 @@ finally:
 
 # ---------------------------------------------------------------- final state
 fin = call("FINAL state GET", "GET", DP, check_200, GET_CLAIM)
-print("final bookmark:", bmk(fin.body), "| final header 68704 content_raw:",
+print("final bookmark:", bmk(fin.body), f"| final header {HEADER_ITEM} content_raw:",
       (hdr_item(fin) or {}).get("content_raw"))
 print("created own post ids:", CREATED)
 print("deleted:", DELETED, "| still alive (should be empty):", ALIVE)

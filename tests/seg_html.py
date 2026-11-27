@@ -1,6 +1,6 @@
 """Live test for segment `html`: what nyx keeps, changes or removes in HTML of posts and mail.
 
-Writes: 2 posts in discussion 288360 (deleted in finally), 1 mail to BOD (cannot be deleted).
+Writes: 2 posts in the test discussion (deleted in finally), 1 mail to the peer user (cannot be deleted).
 Guard-enforced by nyx.py. Each case is one numbered line of one document ([NN] marker).
 """
 import re
@@ -10,9 +10,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from http.client import IncompleteRead  # noqa: E402
 from nyx import Client, Result, nonce, save_fixture  # noqa: E402
+from nyx import TEST_USER, PEER_USER, TEST_DISC, PUBLIC_DISC  # noqa: E402
 
 SEG = "html"
-DISC = 288360            # "NYXOT ~ testing NYX API": the only discussion written to
+DISC = TEST_DISC            # "test discussion": the only discussion written to
 DP = f"/discussion/{DISC}"
 c = Client(SEG)
 _n = [0]
@@ -49,7 +50,7 @@ fenced block
 25 <a href="https://example.com" title="https://example.com">title with url</a>
 26 <a href="https://example.com" title="plain title">title plain</a>
 27 bare URL https://example.com/path
-28 discussion URL https://nyx.cz/discussion/18379
+28 discussion URL https://nyx.cz/discussion/PUBLIC_DISC_ID
 29 <span style="color:red">span style</span>
 30 <table><tr><td>td</td></tr></table>
 31 <ul><li>li</li></ul>
@@ -75,7 +76,7 @@ def tid():
 
 def parse_cases():
     cases = []
-    for line in DOC_CASES_SRC.strip("\n").split("\n"):
+    for line in DOC_CASES_SRC.replace("PUBLIC_DISC_ID", str(PUBLIC_DISC)).strip("\n").split("\n"):
         m = re.match(r"^(\d\d) (.*)$", line)
         if m:
             cases.append([int(m.group(1)), m.group(2)])
@@ -109,7 +110,7 @@ def disc_send(fmt, cases):
     r = C("POST", f"{DP}/send/text", data={"content": doc, "format": fmt}, test_id=t,
           claim=f"undocumented: stored form of a post sent with format={fmt} (Swagger send/text: text|html)")
     print(f"{t} | {r.status} | send discussion format={fmt} | body={r.body!r}"[:300])
-    g = C("GET", DP, params={"user": "NYXOT", "order": "newest"}, test_id=tid(),
+    g = C("GET", DP, params={"user": TEST_USER, "order": "newest"}, test_id=tid(),
           claim="undocumented: stored content of the sent post (GET /discussion/{id})")
     p = find_by(posts_in(g), n)
     if p is None:
@@ -125,10 +126,10 @@ def mail_send(cases):
     n = nonce()
     doc = build(cases, n)
     t = tid()
-    r = C("POST", "/mail/send", data={"recipient": "BOD", "message": doc, "format": "html"}, test_id=t,
+    r = C("POST", "/mail/send", data={"recipient": PEER_USER, "message": doc, "format": "html"}, test_id=t,
           claim="undocumented: stored form of mail sent with format=html (Swagger mail/send: text|html)")
-    print(f"{t} | {r.status} | send mail to BOD format=html | body={r.body!r}"[:300])
-    g = C("GET", "/mail", params={"user": "BOD", "order": "newest"}, test_id=tid(),
+    print(f"{t} | {r.status} | send mail to {PEER_USER} format=html | body={r.body!r}"[:300])
+    g = C("GET", "/mail", params={"user": PEER_USER, "order": "newest"}, test_id=tid(),
           claim="undocumented: stored content of the sent mail (GET /mail)")
     p = find_by(posts_in(g), n)
     if p is None:
@@ -147,7 +148,7 @@ def delete_and_verify(res):
         r = C("DELETE", f"{DP}/delete/{pid}", test_id=t,
               claim="DELETE /discussion/{discussion_id}/delete/{id} (own post registered by this run)")
         print(f"{t} | {r.status} | delete post {pid} | body={r.body!r}"[:300])
-    g = C("GET", DP, params={"user": "NYXOT", "order": "newest"}, test_id=tid(),
+    g = C("GET", DP, params={"user": TEST_USER, "order": "newest"}, test_id=tid(),
           claim="undocumented: verify the deleted posts are gone")
     posts = posts_in(g)
     ids_now = {p.get("id") for p in posts}

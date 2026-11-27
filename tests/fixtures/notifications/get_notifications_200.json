@@ -1,9 +1,9 @@
 {
  "context": {
   "user": {
-   "username": "NYXOT",
+   "username": "TESTUSER",
    "mail_unread": 0,
-   "mail_last_from": "RSS",
+   "mail_last_from": "OTHERUSER",
    "notifications_unread": 0,
    "notifications_last_visit": "2025-07-29T12:47:28"
   },
@@ -24,8 +24,8 @@
     ],
     "replies": [
      {
-      "id": 59122591,
-      "discussion_id": 275939,
+      "id": 50000005,
+      "discussion_id": 100007,
       "username": "USER3",
       "content": "<redacted>",
       "inserted_at": "2026-11-16T13:10:42"
@@ -34,17 +34,17 @@
    },
    "type": "post",
    "data": {
-    "id": 59120957,
-    "discussion_id": 275939,
+    "id": 50000004,
+    "discussion_id": 100007,
     "domain_id": 14,
-    "discussion_name": "Za Paywallem? 🔐🗝️ Odemčeno. 🔑🔓 klub se 4 pravidly v záhlaví",
-    "user_id": 94404,
-    "username": "NYXOT",
-    "content": "<b>Disclaimer:</b> Toto je post vytvořený scriptem <font color=\"grey\">15.11.2026 17:00</font>, v případě odemčení reagujte na původní příspěvek žadatele, ne tento post. S připomínkami k fungování audi…",
+    "discussion_name": "Example discussion A",
+    "user_id": 10001,
+    "username": "TESTUSER",
+    "content": "<redacted>",
     "content_raw": {
      "type": "text",
      "data": {
-      "data": "<b>Disclaimer:</b> Toto je post vytvořený scriptem <font color='grey'>15.11.2026 17:00</font>, v případě odemčení reagujte na původní příspěvek žadatele, ne tento post. S připomínkami k fungování audi…",
+      "data": "<redacted>",
       "format": "html"
      }
     },
@@ -54,7 +54,7 @@
     "my_rating": null,
     "rating_relative": 2,
     "replies": [
-     59122591
+     50000005
     ],
     "inserted_at": "2026-11-15T17:00:39"
    }
@@ -74,17 +74,17 @@
    },
    "type": "post",
    "data": {
-    "id": 58970889,
-    "discussion_id": 275939,
+    "id": 50000003,
+    "discussion_id": 100007,
     "domain_id": 14,
-    "discussion_name": "Za Paywallem? 🔐🗝️ Odemčeno. 🔑🔓 klub se 4 pravidly v záhlaví",
-    "user_id": 94404,
-    "username": "NYXOT",
-    "content": "<b>Disclaimer:</b> Toto je post vytvořený scriptem <font color=\"grey\">06.09.2026 18:02</font>, v případě odemčení reagujte na původní příspěvek žadatele, ne tento post. S připomínkami k fungování audi…",
+    "discussion_name": "Example discussion A",
+    "user_id": 10001,
+    "username": "TESTUSER",
+    "content": "<redacted>",
     "content_raw": {
      "type": "text",
      "data": {
-      "data": "<b>Disclaimer:</b> Toto je post vytvořený scriptem <font color='grey'>06.09.2026 18:02</font>, v případě odemčení reagujte na původní příspěvek žadatele, ne tento post. S připomínkami k fungování audi…",
+      "data": "<redacted>",
       "format": "html"
      }
     },
@@ -94,7 +94,7 @@
     "my_rating": null,
     "rating_relative": 2,
     "replies": [
-     59120957
+     50000004
     ],
     "inserted_at": "2026-09-06T20:02:08"
    }
